@@ -2,20 +2,19 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/> <!-- 🔥 اضافه شدن viewport-fit=cover -->
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* 🔥 تغییرات اصلی برای رفع مشکل عرض و ارتفاع 🔥 */
-    html, body {
-      height: 100%;
-      min-height: 100vh; /* پر کردن کل ارتفاع صفحه نمایش */
-      overflow-y: auto; /* فعال کردن اسکرول عمودی وقتی محتوا بلند شد */
+    /* 🔥 تنظیمات کلی برای ارتفاع و عرض صفحه 🔥 */
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
     }
 
-    * {
-      box-sizing: border-box; /* مهم برای محاسبه درست اندازه‌ها */
+    html, body {
+      height: 100%; /* ارتفاع کامل صفحه */
     }
 
     body{
@@ -24,28 +23,29 @@
       display:flex; 
       flex-direction:column; 
       align-items:center;
-      padding:10px; /* پدینگ مناسب موبایل */
-      justify-content: flex-start; /* محتوا از بالای صفحه شروع بشه */
+      padding:10px; 
+      min-height: 100vh; /* حداقل ارتفاع: کل صفحه */
+      position: relative; /* برای کنترل المان‌های مطلق */
     }
 
     #capture-area{
       background:#fff;
-      width: 100%;         /* عرض کامل در موبایل */
-      max-width: 800px;    /* حداکثر عرض برای دسکتاپ */
-      max-height: calc(100vh - 120px); /* ارتفاع حداکثر تا جای دکمه‌ها */
-      overflow-y: auto; /* اسکرول درون فرم اگر محتوا خیلی بلند شد */
+      width: 100%;
+      max-width: 800px;
       padding:20px;
       border:2px solid #000;
       box-shadow:0 0 10px rgba(0,0,0,.1);
-      overflow-x: hidden;  جلوگیری از اسکرول افقی
-      margin-bottom: 15px; /* فاصله از دکمه‌ها */
+      overflow-x: hidden;
+      overflow-y: auto; /* اسکرول عمودی اگر محتوا بلند بود */
+      max-height: calc(100vh - 150px); /* 🔥 ارتفاع حداکثری متناسب با صفحه */
     }
 
+    /* 🔥 جلوگیری از خارج شدن محتوا از صفحه در موبایل */
     table{ 
       width:100%; 
       border-collapse:collapse; 
       border:2px solid #000; 
-      table-layout: fixed; /* جلوگیری از خروج از محدوده */
+      table-layout: fixed;
     }
 
     td{ 
@@ -54,7 +54,8 @@
       vertical-align:middle; 
       font-size:14px; 
       line-height:1.6;
-      word-wrap: break-word; /* شکستن متن‌های طولانی */
+      word-wrap: break-word;
+      white-space: normal; /* جلوگیری از جمع شدن متن */
     }
 
     .header-cell{ 
@@ -71,9 +72,10 @@
       color:red; 
       font-size:14px; 
       font-family:Tahoma, sans-serif;
-      width:100%; /* پر کردن فضای موجود */ 
+      width:100%; 
       flex-grow:1;
-      min-width: 50px; /* جلوگیری از شکستن لایه‌ها */
+      min-width: 50px;
+      max-width: 100%; /* جلوگیری از خارج شدن از سلول */
     }
 
     textarea{ 
@@ -88,7 +90,7 @@
       background: transparent;
       font-size: 14px; 
       font-family: Tahoma, sans-serif;
-      width: 100%; /* پر کردن فضای موجود */
+      width: 100%;
       flex-grow: 1;
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff0000" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
@@ -115,7 +117,7 @@
       display:flex; 
       align-items:center; 
       gap:5px; 
-      flex-wrap: wrap; /* در موبایل بپیچد */
+      flex-wrap: wrap; 
       width: 100%; 
     }
 
@@ -123,8 +125,9 @@
       display:inline-flex; 
       align-items:center; 
       gap:3px; 
-      margin: 2px 10px 2px 0; /* فاصله مناسب موبایل */
-      flex-shrink: 0; /* جلوگیری از کوچک شدن بیش از حد */
+      margin: 2px 10px 2px 0;
+      flex-shrink: 0;
+      flex-wrap: wrap;
     }
 
     input[type="checkbox"]{ 
@@ -132,16 +135,18 @@
     }
 
     .controls{
-      margin-top: 5px; 
+      margin-top:20px; 
       display:flex; 
       gap:10px; 
       background:#fff;
       padding:15px; 
       border-radius:8px; 
       box-shadow:0 2px 5px rgba(0,0,0,.2);
-      flex-wrap: wrap; /* در موبایل بپیچد */
+      flex-wrap: wrap;
       width: 100%;
       max-width: 800px;
+      position: sticky; /* 🔥 چسبیدن به پایین صفحه */
+      bottom: 10px; /* فاصله از لبه پایین */
     }
 
     button{ 
@@ -151,8 +156,8 @@
       border-radius:5px; 
       transition:.3s; 
       font-family:Tahoma; 
-      flex: 1; /* مساحت یکسان در موبایل */
-      min-width: 120px; /* جلوگیری از خیلی کوچک شدن */
+      flex: 1;
+      min-width: 120px;
     }
 
     .btn-download{ 
@@ -191,13 +196,56 @@
       font-size:21px;
       padding-top:16px;
       padding-bottom:16px;
-      word-break: break-word; /* شکستن متن‌های طولانی */
+      word-break: break-word;
     }
 
-    /* استایل برای اینپوت‌های کادر پایانی */
     #footer_me, #footer_target {
-      width: 90px; /* اندازه مناسب موبایل */
-      max-width: 120px; /* برای دسکتاپ */
+      width: 90px;
+      max-width: 120px;
+      flex-shrink: 0;
+    }
+
+    /* 🔥 استایل جدید برای مدیریت ارتفاع در موبایل 🔥 */
+    @media (max-width: 768px) {
+      body {
+        padding: 5px; /* کاهش پدینگ برای صرفه‌جویی در فضا */
+      }
+
+      #capture-area {
+        max-height: calc(100vh - 120px); /* ارتفاع کمتر برای فضای دکمه‌ها */
+        padding: 15px;
+      }
+
+      .controls {
+        position: fixed; 
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+      }
+
+      .controls button {
+        flex: 1 1 auto;
+        margin-bottom: 5px;
+      }
+
+      td {
+        padding: 6px; /* کاهش پدینگ سلول‌ها */
+      }
+
+      .header-cell {
+        font-size: 18px;
+        padding: 10px;
+      }
+
+      .footer-row td {
+        font-size: 18px;
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -206,6 +254,7 @@
   <!-- ✅ کد HTML شما کاملاً بدون تغییر ✅ -->
   <div id="capture-area">
     <table>
+      <!-- همه سطرهای جدول شما بدون تغییر -->
       <tr><td colspan="2" class="header-cell">برگه بیوگرافی</td></tr>
 
       <tr>
@@ -362,7 +411,6 @@
         </td>
       </tr>
 
-      <!-- کادر پایانی یک‌تکه -->
       <tr class="footer-row">
         <td colspan="2">
           اینجانب
@@ -373,7 +421,6 @@
           (اولین فالوئر) را دارم.
         </td>
       </tr>
-
     </table>
   </div>
 
@@ -385,6 +432,7 @@
   </div>
 
   <script>
+    // اسکریپت‌های شما بدون تغییر
     function downloadJPG(){
       const el = document.getElementById('capture-area');
       html2canvas(el, {scale:2, backgroundColor:'#ffffff', useCORS:true})
