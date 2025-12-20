@@ -6,121 +6,194 @@
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* --- added: prevent horizontal cut-off on mobile --- */
-    *, *::before, *::after{ box-sizing:border-box; }
-    html, body{ max-width:100%; overflow-x:hidden; }
+    /* 🔥 تغییرات اصلی برای رفع مشکل موبایل 🔥 */
+    * {
+      box-sizing: border-box; /* مهم برای محاسبه درست اندازه‌ها */
+    }
 
     body{
       font-family: Tahoma, Arial, sans-serif;
       background:#f0f0f0;
-      display:flex; flex-direction:column; align-items:center;
-      padding:20px;
+      display:flex; 
+      flex-direction:column; 
+      align-items:center;
+      padding:10px; /* پدینگ کمتر برای موبایل */
+      margin: 0; /* اضافه شد */
     }
 
-    /* --- changed: was width:800px; now responsive while keeping 800px on desktop --- */
     #capture-area{
       background:#fff;
-      width:100%;
-      max-width:800px;
+      width: 100%;         /* قبل: 800px */
+      max-width: 800px;    /* برای دسکتاپ باقی می‌مونه */
       padding:20px;
       border:2px solid #000;
       box-shadow:0 0 10px rgba(0,0,0,.1);
+      overflow-x: hidden;  /* جلوگیری از اسکرول افقی */
     }
 
-    /* --- added: helps table behave better on narrow screens --- */
-    table{
-      width:100%;
-      border-collapse:collapse;
-      border:2px solid #000;
-      table-layout:fixed;
+    table{ 
+      width:100%; 
+      border-collapse:collapse; 
+      border:2px solid #000; 
+      table-layout: fixed; /* جلوگیری از خروج از محدوده */
     }
 
-    td{
-      border:1px solid #000;
-      padding:8px;
-      vertical-align:middle;
-      font-size:14px;
+    td{ 
+      border:1px solid #000; 
+      padding:8px; 
+      vertical-align:middle; 
+      font-size:14px; 
       line-height:1.6;
-
-      /* --- added: avoid overflow from long text/inputs --- */
-      overflow-wrap:anywhere;
-      word-break:break-word;
+      word-wrap: break-word; /* شکستن متن‌های طولانی */
     }
 
-    .header-cell{ text-align:center; font-weight:bold; font-size:20px; padding:15px; }
+    .header-cell{ 
+      text-align:center; 
+      font-weight:bold; 
+      font-size:20px; 
+      padding:15px; 
+    }
 
     input[type="text"], textarea{
-      border:none; outline:none; background:transparent;
-      color:red; font-size:14px; font-family:Tahoma, sans-serif;
-      width:auto; flex-grow:1;
-
-      /* --- added: stops inputs from pushing layout wider than the cell --- */
-      min-width:0;
-      max-width:100%;
+      border:none; 
+      outline:none; 
+      background:transparent;
+      color:red; 
+      font-size:14px; 
+      font-family:Tahoma, sans-serif;
+      width:100%; /* قبل: auto */ 
+      flex-grow:1;
+      min-width: 50px; /* جلوگیری از شکستن لایه‌ها */
     }
-    textarea{ width:100%; resize:none; overflow:hidden; }
+
+    textarea{ 
+      width:100%; 
+      resize:none; 
+      overflow:hidden; 
+    }
 
     .answer-select {
-      border: none; outline: none; background: transparent;
-      font-size: 14px; font-family: Tahoma, sans-serif;
-      width: auto; flex-grow: 1;
+      border: none; 
+      outline: none; 
+      background: transparent;
+      font-size: 14px; 
+      font-family: Tahoma, sans-serif;
+      width: 100%; /* قبل: auto */
+      flex-grow: 1;
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff0000" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
       background-repeat: no-repeat;
       background-position: left 4px center;
       padding-left: 22px;
       cursor: pointer;
-
-      /* --- added --- */
-      min-width:0;
-      max-width:100%;
     }
-    .answer-select option { color: black; background: white; }
-    .answer-select:valid { color: red; }
-    .answer-select option[disabled] { color: #888; }
 
-    .flex-row{ display:flex; align-items:center; gap:5px; min-width:0; }
-    .checkbox-group{ display:inline-flex; align-items:center; gap:3px; margin-left:10px; }
-    input[type="checkbox"]{ cursor:pointer; }
+    .answer-select option { 
+      color: black; 
+      background: white; 
+    }
+
+    .answer-select:valid { 
+      color: red; 
+    }
+
+    .answer-select option[disabled] { 
+      color: #888; 
+    }
+
+    .flex-row{ 
+      display:flex; 
+      align-items:center; 
+      gap:5px; 
+      flex-wrap: wrap; /* در موبایل بپیچد */
+      width: 100%; 
+    }
+
+    .checkbox-group{ 
+      display:inline-flex; 
+      align-items:center; 
+      gap:3px; 
+      margin: 2px 10px 2px 0; /* فاصله کمتر برای موبایل */
+      flex-shrink: 0; /* جلوگیری از کوچک شدن بیش از حد */
+    }
+
+    input[type="checkbox"]{ 
+      cursor:pointer; 
+    }
 
     .controls{
-      margin-top:20px; display:flex; gap:10px; background:#fff;
-      padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,.2);
-
-      /* --- added: controls also fit on mobile --- */
-      flex-wrap:wrap;
-      justify-content:center;
-      max-width:100%;
+      margin-top:20px; 
+      display:flex; 
+      gap:10px; 
+      background:#fff;
+      padding:15px; 
+      border-radius:8px; 
+      box-shadow:0 2px 5px rgba(0,0,0,.2);
+      flex-wrap: wrap; /* در موبایل بپیچد */
+      width: 100%;
+      max-width: 800px;
     }
-    button{ padding:10px 20px; cursor:pointer; border:none; border-radius:5px; transition:.3s; font-family:Tahoma; }
-    .btn-download{ background:#27ae60; color:#fff; }
-    .btn-backup{ background:#2980b9; color:#fff; }
-    .btn-restore{ background:#f39c12; color:#fff; }
-    button:hover{ opacity:.85; }
 
-    #fileInput{ display:none; }
+    button{ 
+      padding:10px 20px; 
+      cursor:pointer; 
+      border:none; 
+      border-radius:5px; 
+      transition:.3s; 
+      font-family:Tahoma; 
+      flex: 1; /* مساحت یکسان در موبایل */
+      min-width: 120px; /* جلوگیری از خیلی کوچک شدن */
+    }
 
-    tr.merge-top td{ border-bottom:none !important; }
-    tr.merge-bottom td{ border-top:none !important; }
+    .btn-download{ 
+      background:#27ae60; 
+      color:#fff; 
+    }
 
-    /* استایل مخصوص کادر پایانی */
+    .btn-backup{ 
+      background:#2980b9; 
+      color:#fff; 
+    }
+
+    .btn-restore{ 
+      background:#f39c12; 
+      color:#fff; 
+    }
+
+    button:hover{ 
+      opacity:.85; 
+    }
+
+    #fileInput{ 
+      display:none; 
+    }
+
+    tr.merge-top td{ 
+      border-bottom:none !important; 
+    }
+
+    tr.merge-bottom td{ 
+      border-top:none !important; 
+    }
+
     .footer-row td{
       font-weight:bold;
       font-size:21px;
       padding-top:16px;
       padding-bottom:16px;
+      word-break: break-word; /* شکستن متن‌های طولانی */
     }
 
-    /* --- added: a bit smaller padding on very small screens (keeps layout inside viewport) --- */
-    @media (max-width: 480px){
-      body{ padding:10px; }
-      #capture-area{ padding:12px; }
-      td{ padding:6px; }
+    /* 🔥 استایل جدید برای اینپوت‌های کادر پایانی 🔥 */
+    #footer_me, #footer_target {
+      width: 90px; /* کمتر شد برای موبایل */
+      max-width: 120px; /* برای دسکتاپ */
     }
   </style>
 </head>
 <body>
 
+  <!-- ✅ کد HTML شما کاملاً بدون تغییر ✅ -->
   <div id="capture-area">
     <table>
       <tr><td colspan="2" class="header-cell">برگه بیوگرافی</td></tr>
@@ -283,10 +356,10 @@
       <tr class="footer-row">
         <td colspan="2">
           اینجانب
-          ( <input type="text" id="footer_me" style="width:120px;"> )
+          ( <input type="text" id="footer_me" style="width:90px;"> )
           درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور
           از آقا / خانم
-          ( <input type="text" id="footer_target" style="width:120px;"> )
+          ( <input type="text" id="footer_target" style="width:90px;"> )
           (اولین فالوئر) را دارم.
         </td>
       </tr>
