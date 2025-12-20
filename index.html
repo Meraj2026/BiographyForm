@@ -6,7 +6,14 @@
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* 🔥 تغییرات اصلی برای رفع مشکل موبایل 🔥 */
+    /* 🔥 تغییرات اصلی برای رفع مشکل عرض و ارتفاع 🔥 */
+    html, body {
+      height: 100%;
+      min-height: 100vh; /* پر کردن کل ارتفاع صفحه نمایش */
+      overflow-y: auto; /* فعال کردن اسکرول عمودی وقتی محتوا بلند شد */
+      margin: 0;
+    }
+
     * {
       box-sizing: border-box; /* مهم برای محاسبه درست اندازه‌ها */
     }
@@ -17,18 +24,21 @@
       display:flex; 
       flex-direction:column; 
       align-items:center;
-      padding:10px; /* پدینگ کمتر برای موبایل */
-      margin: 0; /* اضافه شد */
+      padding:10px; /* پدینگ مناسب موبایل */
+      justify-content: flex-start; /* محتوا از بالای صفحه شروع بشه */
     }
 
     #capture-area{
       background:#fff;
-      width: 100%;         /* قبل: 800px */
-      max-width: 800px;    /* برای دسکتاپ باقی می‌مونه */
+      width: 100%;         /* عرض کامل در موبایل */
+      max-width: 800px;    /* حداکثر عرض برای دسکتاپ */
+      max-height: calc(100vh - 120px); /* ارتفاع حداکثر تا جای دکمه‌ها */
+      overflow-y: auto; /* اسکرول درون فرم اگر محتوا خیلی بلند شد */
       padding:20px;
       border:2px solid #000;
       box-shadow:0 0 10px rgba(0,0,0,.1);
-      overflow-x: hidden;  /* جلوگیری از اسکرول افقی */
+      overflow-x: hidden;  جلوگیری از اسکرول افقی
+      margin-bottom: 15px; /* فاصله از دکمه‌ها */
     }
 
     table{ 
@@ -61,7 +71,7 @@
       color:red; 
       font-size:14px; 
       font-family:Tahoma, sans-serif;
-      width:100%; /* قبل: auto */ 
+      width:100%; /* پر کردن فضای موجود */ 
       flex-grow:1;
       min-width: 50px; /* جلوگیری از شکستن لایه‌ها */
     }
@@ -78,7 +88,7 @@
       background: transparent;
       font-size: 14px; 
       font-family: Tahoma, sans-serif;
-      width: 100%; /* قبل: auto */
+      width: 100%; /* پر کردن فضای موجود */
       flex-grow: 1;
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff0000" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
@@ -113,7 +123,7 @@
       display:inline-flex; 
       align-items:center; 
       gap:3px; 
-      margin: 2px 10px 2px 0; /* فاصله کمتر برای موبایل */
+      margin: 2px 10px 2px 0; /* فاصله مناسب موبایل */
       flex-shrink: 0; /* جلوگیری از کوچک شدن بیش از حد */
     }
 
@@ -122,7 +132,7 @@
     }
 
     .controls{
-      margin-top:20px; 
+      margin-top: 5px; 
       display:flex; 
       gap:10px; 
       background:#fff;
@@ -184,9 +194,9 @@
       word-break: break-word; /* شکستن متن‌های طولانی */
     }
 
-    /* 🔥 استایل جدید برای اینپوت‌های کادر پایانی 🔥 */
+    /* استایل برای اینپوت‌های کادر پایانی */
     #footer_me, #footer_target {
-      width: 90px; /* کمتر شد برای موبایل */
+      width: 90px; /* اندازه مناسب موبایل */
       max-width: 120px; /* برای دسکتاپ */
     }
   </style>
