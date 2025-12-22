@@ -15,16 +15,19 @@
             align-items: center;
             padding: 20px;
         }
+        /* همه نوشته‌ها یک‌جا کوچک‌تر شده‌اند */
         #form-container {
             width: 800px;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-size: 13px;  /* سایز کلی متن */
         }
         h1 {
             text-align: center;
             margin-bottom: 20px;
             font-weight: bold;
+            font-size: 18px;  /* عنوان کمی بزرگ‌تر از بقیه */
         }
         table {
             width: 100%;
@@ -33,7 +36,7 @@
         }
         td {
             border: 1px solid black;
-            padding: 8px;
+            padding: 6px;
             vertical-align: middle;
         }
         .label-cell {
@@ -46,8 +49,8 @@
             border: none;
             background-color: transparent;
             font-family: inherit;
-            font-size: inherit;
-            color: red; /* رنگ جواب ها */
+            font-size: inherit;  /* از #form-container (۱۳px) ارث می‌گیرد */
+            color: red;          /* رنگ جواب‌ها */
             direction: rtl;
         }
         textarea {
@@ -56,19 +59,19 @@
         }
         input[type="checkbox"] {
             margin-left: 5px;
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
         .checkbox-group label {
-            margin-left: 15px;
+            margin-left: 10px;
         }
         #buttons {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 0 10px;
+            padding: 8px 16px;
+            font-size: 13px;
+            margin: 0 8px;
             cursor: pointer;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -117,10 +120,10 @@
                     <td class="label-cell">دغدغه فعلی:</td>
                     <td>
                         <div class="checkbox-group">
-                            <label><input type="checkbox" data-field="concern" value="درآمد"> درآمد</label>
-                            <label><input type="checkbox" data-field="concern" value="زمان"> زمان</label>
-                            <label><input type="checkbox" data-field="concern" value="پیشرفت"> پیشرفت</label>
-                            <label><input type="checkbox" data-field="concern" value="امنیت شغلی"> امنیت شغلی</label>
+                            <label><input type="checkbox" data-field="concern" value="درآمد">درآمد</label>
+                            <label><input type="checkbox" data-field="concern" value="زمان">زمان</label>
+                            <label><input type="checkbox" data-field="concern" value="پیشرفت">پیشرفت</label>
+                            <label><input type="checkbox" data-field="concern" value="امنیت شغلی">امنیت شغلی</label>
                         </div>
                     </td>
                 </tr>
@@ -132,13 +135,13 @@
                     <td class="label-cell">ویژگی‌های شخصیتی:</td>
                     <td>
                         <div class="checkbox-group">
-                            <label><input type="checkbox" data-field="personality" value="اجتماعی"> اجتماعی</label>
-                            <label><input type="checkbox" data-field="personality" value="ریسک‌پذیر"> ریسک‌پذیر</label>
-                            <label><input type="checkbox" data-field="personality" value="مستقل"> مستقل</label>
-                            <label><input type="checkbox" data-field="personality" value="مذهبی"> مذهبی</label>
-                            <label><input type="checkbox" data-field="personality" value="رک"> رک</label>
-                            <label><input type="checkbox" data-field="personality" value="شکاک"> شکاک</label>
-                            <label><input type="checkbox" data-field="personality" value="رفیق‌باز"> رفیق‌باز</label>
+                            <label><input type="checkbox" data-field="personality" value="اجتماعی">اجتماعی</label>
+                            <label><input type="checkbox" data-field="personality" value="ریسک‌پذیر">ریسک‌پذیر</label>
+                            <label><input type="checkbox" data-field="personality" value="مستقل">مستقل</label>
+                            <label><input type="checkbox" data-field="personality" value="مذهبی">مذهبی</label>
+                            <label><input type="checkbox" data-field="personality" value="رک">رک</label>
+                            <label><input type="checkbox" data-field="personality" value="شکاک">شکاک</label>
+                            <label><input type="checkbox" data-field="personality" value="رفیق‌باز">رفیق‌باز</label>
                         </div>
                     </td>
                 </tr>
@@ -146,8 +149,8 @@
                     <td class="label-cell">توضیحات بیشتر:</td>
                     <td>
                         <div class="checkbox-group">
-                             <label><input type="checkbox" data-field="personality_desc" value="خواستار تجربه‌های تازه"> خواستار تجربه‌های تازه</label>
-                             <label><input type="checkbox" data-field="personality_desc" value="اهمیت‌دهنده به حرف اطرافیان"> اهمیت‌دهنده به حرف اطرافیان</label>
+                            <label><input type="checkbox" data-field="personality_desc" value="خواستار تجربه‌های تازه">خواستار تجربه‌های تازه</label>
+                            <label><input type="checkbox" data-field="personality_desc" value="اهمیت‌دهنده به حرف اطرافیان">اهمیت‌دهنده به حرف اطرافیان</label>
                         </div>
                     </td>
                 </tr>
@@ -189,11 +192,9 @@
                 </tr>
                 <tr>
                     <td class="label-cell">
-                        اینجانب ( ) از آقا / خانم ( )
-                        <br>
-                        (درخواست تأییدیه جهت زنگ به ایشان و مشخص کردن پرزنتور)
-                        <br>
-                        (اولین فالوئر) را دارم
+                        اینجانب ( ) از آقا / خانم ( )<br>
+                        (درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور)<br>
+                        (اولین فالوئر) را دارم.
                     </td>
                     <td><textarea data-field="final_notes"></textarea></td>
                 </tr>
@@ -215,19 +216,15 @@
             const formContainer = document.getElementById('form-container');
             const STORAGE_KEY = 'biographyFormBackup';
 
-            // تابع برای ذخیره اطلاعات فرم
+            // ذخیره اطلاعات فرم
             const saveFormData = () => {
                 const data = {};
                 const inputs = form.querySelectorAll('[data-field]');
                 inputs.forEach(input => {
                     const field = input.dataset.field;
                     if (input.type === 'checkbox') {
-                        if (!data[field]) {
-                            data[field] = [];
-                        }
-                        if (input.checked) {
-                            data[field].push(input.value);
-                        }
+                        if (!data[field]) data[field] = [];
+                        if (input.checked) data[field].push(input.value);
                     } else {
                         data[field] = input.value;
                     }
@@ -236,21 +233,17 @@
                 alert('نسخه پشتیبان با موفقیت ذخیره شد.');
             };
 
-            // تابع برای بازیابی اطلاعات فرم
+            // بازیابی اطلاعات فرم
             const loadFormData = () => {
                 const savedData = localStorage.getItem(STORAGE_KEY);
                 if (!savedData) {
                     alert('هیچ نسخه پشتیبانی یافت نشد.');
                     return;
                 }
-                
-                if (!confirm('با بازیابی نسخه پشتیبان، اطلاعات فعلی فرم جایگزین خواهد شد. آیا مطمئن هستید؟')) {
-                    return;
-                }
+                if (!confirm('با بازیابی نسخه پشتیبان، اطلاعات فعلی فرم جایگزین خواهد شد. ادامه می‌دهید؟')) return;
 
                 const data = JSON.parse(savedData);
                 const inputs = form.querySelectorAll('[data-field]');
-                
                 inputs.forEach(input => {
                     const field = input.dataset.field;
                     if (input.type === 'checkbox') {
@@ -262,14 +255,10 @@
                 alert('نسخه پشتیبان با موفقیت بازیابی شد.');
             };
 
-            // تابع برای دانلود فرم به صورت تصویر
+            // دانلود فرم به صورت JPG
             const downloadFormAsImage = () => {
-                // قبل از گرفتن اسکرین‌شات، فوکوس را از همه عناصر خارج می‌کنیم تا حاشیه آبی نمایش داده نشود
-                document.activeElement.blur();
-
-                html2canvas(formContainer, {
-                    scale: 2 // افزایش کیفیت تصویر
-                }).then(canvas => {
+                document.activeElement.blur(); // حذف حاشیه فوکوس
+                html2canvas(formContainer, { scale: 2 }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = 'برگه-بیوگرافی.jpg';
                     link.href = canvas.toDataURL('image/jpeg');
