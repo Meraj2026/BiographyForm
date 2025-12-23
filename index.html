@@ -49,7 +49,7 @@
       direction: rtl;
       width: auto; 
       flex-grow: 1;
-      line-height: 1.8; /* فضای کافی برای زیر حروف فارسی */
+      line-height: 1.8; 
       padding-bottom: 2px;
     }
     
@@ -80,7 +80,14 @@
 
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 3px; margin-left: 10px; direction: rtl; }
-    input[type="checkbox"] { cursor: pointer; transform: scale(1.2); margin-right: 5px; }
+    
+    /* تغییر رنگ تیک‌ها به قرمز */
+    input[type="checkbox"] { 
+      cursor: pointer; 
+      transform: scale(1.2); 
+      margin-right: 5px; 
+      accent-color: red; /* این خط رنگ تیک را قرمز می‌کند */
+    }
 
     .controls {
       margin-top: 20px; 
@@ -112,7 +119,6 @@
       padding-bottom: 16px;
     }
     
-    /* تنظیم اختصاصی برای آیدی اینستاگرام */
     #instagram { direction: ltr; text-align: left; }
   </style>
 </head>
@@ -241,7 +247,6 @@
   <script>
     function downloadJPG(){
       const el = document.getElementById('capture-area');
-      // افزایش اسکیل برای کیفیت عالی و رندر بهتر حروف
       html2canvas(el, {
         scale: 3, 
         backgroundColor: '#ffffff', 
