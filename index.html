@@ -67,7 +67,6 @@
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; cursor: pointer; }
 
-    /* قرمز شدن متن پاسخ‌ها هنگام تیک خوردن */
     .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
 
     input[type="checkbox"] { cursor: pointer; transform: scale(1.1); margin: 0; }
@@ -143,7 +142,7 @@
             <select id="children" class="answer-select" required>
               <option value="" disabled selected>انتخاب کنید</option>
               <option value="۰">۰</option><option value="۱">۱</option><option value="۲">۲</option>
-              <option value="۳">۳</option><option value="۴">۴</option><option value="۵">۵</option>
+              <option value="۳">۳</option><option value="۴">۴</option><option value="۵</option>
               <option value="۶">۶</option><option value="۷">۷</option><option value="۸">۸</option>
               <option value="۹">۹</option><option value="۱۰">۱۰</option>
             </select>
@@ -191,7 +190,7 @@
 
       <tr class="footer-row">
         <td colspan="2">
-          اینجانب ( <input type="text" id="footer_me" style="width:120px;"> ) درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور از آقا / خانم ( <input type="text" id="footer_target" style="width:120px;"> ) (اولین فالوئر) را دارم.
+          اینجانب ( <input type="text" id="footer_me" style="width:120px; text-align:center;"> ) درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور از آقا / خانم ( <input type="text" id="footer_target" style="width:120px; text-align:center;"> ) (اولین فالوئر) را دارم.
         </td>
       </tr>
     </table>
@@ -208,11 +207,30 @@
     function downloadJPG(){
       const el = document.getElementById('capture-area');
       const instaField = document.getElementById('instagram');
-      const originalVal = instaField.value;
+      const finalDesc = document.getElementById('final_desc');
+      
+      const originalInsta = instaField.value;
+      const originalDesc = finalDesc.value;
 
-      if(originalVal && !originalVal.startsWith('\u200E')){
-          instaField.value = '\u200E' + originalVal;
+      // ۱. اصلاح نمایش اینستاگرام
+      if(originalInsta && !originalInsta.startsWith('\u200E')){
+          instaField.value = '\u200E' + originalInsta;
       }
+
+      // ۲. ترفند نمایش کامل چند سطر توضیحات در عکس
+      const descReplacement = document.createElement('div');
+      descReplacement.innerText = originalDesc;
+      descReplacement.style.whiteSpace = 'pre-wrap';
+      descReplacement.style.color = 'red';
+      descReplacement.style.fontSize = '15px';
+      descReplacement.style.fontWeight = 'bold';
+      descReplacement.style.fontFamily = 'Tahoma';
+      descReplacement.style.textAlign = 'right';
+      descReplacement.style.lineHeight = '1.8';
+      descReplacement.style.paddingTop = '2px';
+      
+      finalDesc.style.display = 'none';
+      finalDesc.parentNode.appendChild(descReplacement);
 
       html2canvas(el, {
         scale: 3, 
@@ -224,7 +242,10 @@
         a.download = 'biography-sheet.jpg';
         a.href = canvas.toDataURL('image/jpeg', 0.98);
         a.click();
-        instaField.value = originalVal;
+        
+        instaField.value = originalInsta;
+        finalDesc.style.display = 'block';
+        descReplacement.remove();
       });
     }
 
