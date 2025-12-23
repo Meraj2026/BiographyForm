@@ -2,90 +2,111 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=800">
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* برگشت کامل به استایل‌های فایل ارسالی شما */
-    body{
+    body {
       font-family: Tahoma, Arial, sans-serif;
-      background:#f0f0f0;
-      display:flex; flex-direction:column; align-items:center;
-      padding:20px;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
     }
-    #capture-area{
-      background:#fff;
-      width:800px;
-      padding:20px;
-      border:2px solid #000;
-      box-shadow:0 0 10px rgba(0,0,0,.1);
-    }
-    table{ width:100%; border-collapse:collapse; border:2px solid #000; }
-    td{ border:1px solid #000; padding:8px; vertical-align:middle; font-size:14px; line-height:1.6; }
-    .header-cell{ text-align:center; font-weight:bold; font-size:20px; padding:15px; }
 
-    input[type="text"], textarea{
-      border:none; outline:none; background:transparent;
-      color:red; font-size:14px; font-family:Tahoma, sans-serif;
-      width:auto; flex-grow:1;
+    #capture-area {
+      background: #fff;
+      width: 800px;
+      padding: 20px;
+      border: 2px solid #000;
+      box-shadow: 0 0 10px rgba(0,0,0,.1);
     }
-    textarea{ width:100%; resize:none; overflow:hidden; }
+
+    table { width: 100%; border-collapse: collapse; border: 2px solid #000; }
+    td { 
+      border: 1px solid #000; 
+      padding: 8px; 
+      vertical-align: middle; 
+      font-size: 14px; 
+      line-height: 1.8; 
+      text-align: right; 
+    }
+    
+    .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; }
+
+    input[type="text"], textarea {
+      border: none; 
+      outline: none; 
+      background: transparent;
+      color: red; 
+      font-size: 15px; 
+      font-weight: bold; 
+      font-family: Tahoma, sans-serif;
+    }
+    
+    textarea { width: 100%; resize: none; overflow: hidden; display: block; }
 
     .answer-select {
       border: none; outline: none; background: transparent;
-      font-size: 14px; font-family: Tahoma, sans-serif;
-      width: auto; flex-grow: 1;
+      color: red; font-size: 15px; font-weight: bold; font-family: Tahoma, sans-serif;
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff0000" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-      background-repeat: no-repeat;
-      background-position: left 4px center;
-      padding-left: 22px;
-      cursor: pointer;
+      background-repeat: no-repeat; background-position: left center;
+      padding-left: 20px; cursor: pointer;
     }
-    .answer-select option { color: black; background: white; }
-    .answer-select:valid { color: red; }
-
-    .flex-row{ display:flex; align-items:center; gap:5px; }
-    .checkbox-group{ display:inline-flex; align-items:center; gap:3px; margin-left:10px; }
     
-    /* قرمز شدن متن گزینه‌های تیک خورده */
-    .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
-
-    .controls{
-      margin-top:20px; display:flex; gap:10px; background:#fff;
-      padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,.2);
+    .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; }
+    
+    /* ویژگی قرمز شدن متن تیک‌باکس‌ها */
+    .checkbox-group { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 4px; 
+      margin-left: 10px; 
+      cursor: pointer; 
     }
-    button{ padding:10px 20px; cursor:pointer; border:none; border-radius:5px; font-family:Tahoma; }
-    .btn-download{ background:#27ae60; color:#fff; }
+    .checkbox-group:has(input:checked) { 
+      color: red; 
+      font-weight: bold; 
+    }
+    input[type="checkbox"] { cursor: pointer; transform: scale(1.1); }
 
-    tr.merge-top td{ border-bottom:none !important; }
-    tr.merge-bottom td{ border-top:none !important; }
+    .controls {
+      margin-top: 20px; display: flex; gap: 10px; background: #fff;
+      padding: 15px; border-radius: 8px; width: 800px; justify-content: center;
+    }
 
-    /* اصلاح نهایی سطر آخر طبق سلیقه شما */
-    .footer-row td{
-      font-weight:bold;
-      font-size:20px; /* سایز ۲۰ پیکسل درخواستی */
-      padding:16px 8px;
-      line-height: 1.8;
+    button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-family: Tahoma; font-weight: bold; }
+    .btn-download { background: #27ae60; color: #fff; }
+    .btn-backup { background: #2980b9; color: #fff; }
+
+    tr.merge-top td { border-bottom: none !important; }
+    tr.merge-bottom td { border-top: none !important; }
+
+    /* استایل نهایی سطر آخر */
+    .footer-row td { 
+      font-weight: bold; 
+      font-size: 20px; 
+      padding: 20px 8px; 
+      line-height: 1.6;
     }
     
     .footer-input {
-      width: 140px !important; /* سایز ۱۴۰ پیکسل درخواستی */
-      text-align: center !important;
+      width: 140px !important; 
+      text-align: center !important; 
       font-size: 20px !important;
-      color: red !important;
-      font-weight: bold;
       display: inline-block;
-      border: none;
-      outline: none;
-      background: transparent;
+      border-bottom: 1px solid #ccc !important;
     }
     
-    /* اصلاح نمایش اینستاگرام برای جلوگیری از جابجایی @ */
+    /* اصلاح نمایش اینستاگرام */
     #instagram { 
       direction: ltr !important; 
       text-align: left !important; 
       unicode-bidi: plaintext !important;
+      width: 100%;
     }
   </style>
 </head>
@@ -95,88 +116,85 @@
     <table>
       <tr><td colspan="2" class="header-cell">برگه بیوگرافی</td></tr>
       <tr>
-        <td width="50%"><div class="flex-row">نام و نام خانوادگی معرف: <input type="text" id="moaref_name"></div></td>
-        <td width="50%"><div class="flex-row">نام و نام خانوادگی پراسپکت: <input type="text" id="prospect_name"></div></td>
+        <td width="50%"><div class="flex-row">نام و نام خانوادگی معرف: <input type="text" id="moaref_name" style="width:180px;"></div></td>
+        <td width="50%"><div class="flex-row">نام و نام خانوادگی پراسپکت: <input type="text" id="prospect_name" style="width:180px;"></div></td>
       </tr>
       <tr>
-        <td><div class="flex-row">ساعت دقیق و تاریخ پرزنت: <input type="text" id="present_date"></div></td>
-        <td><div class="flex-row">سن پراسپکت: <input type="text" id="prospect_age"></div></td>
+        <td><div class="flex-row">ساعت دقیق و تاریخ پرزنت: <input type="text" id="present_date" style="width:180px;"></div></td>
+        <td><div class="flex-row">سن پراسپکت: <input type="text" id="prospect_age" style="width:100px;"></div></td>
       </tr>
       <tr>
-        <td><div class="flex-row">مکان پرزنت: <input type="text" id="present_location"></div></td>
-        <td><div class="flex-row">نسبت با معرف: <input type="text" id="relation"></div></td>
+        <td><div class="flex-row">مکان پرزنت: <input type="text" id="present_location" style="width:200px;"></div></td>
+        <td><div class="flex-row">نسبت با معرف: <input type="text" id="relation" style="width:150px;"></div></td>
       </tr>
       <tr>
         <td>
           <div class="flex-row">تحصیلات:
-            <select id="education" class="answer-select" required>
+            <select id="education" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
-              <option value="زیر دیپلم">زیر دیپلم</option>
-              <option value="دیپلم">دیپلم</option>
-              <option value="لیسانس">لیسانس</option>
-              <option value="فوق لیسانس">فوق لیسانس</option>
-              <option value="دکتری">دکتری</option>
+              <option>زیر دیپلم</option><option>دیپلم</option><option>لیسانس</option><option>فوق لیسانس</option><option>دکتری</option>
             </select>
           </div>
         </td>
-        <td><div class="flex-row">رشته تحصیلی: <input type="text" id="major"></div></td>
+        <td><div class="flex-row">رشته تحصیلی: <input type="text" id="major" style="width:150px;"></div></td>
       </tr>
       <tr>
         <td>
           <div class="flex-row">وضعیت تأهل: 
-            <select id="marriage" class="answer-select" required>
+            <select id="marriage" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
-              <option value="مجرد">مجرد</option><option value="متأهل">متأهل</option>
-              <option value="مطلقه">مطلقه</option><option value="بیوه">بیوه</option>
+              <option>مجرد</option><option>متأهل</option><option>مطلقه</option><option>بیوه</option>
             </select>
           </div>
         </td>
         <td>
           <div class="flex-row">تعداد فرزند:
-            <select id="children" class="answer-select" required>
+            <select id="children" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
-              <option value="۰">۰</option><option value="۱">۱</option><option value="۲">۲</option>
-              <option value="۳">۳</option><option value="۴">۴</option><option value="۵">۵</option>
+              <option>۰</option><option>۱</option><option>۲</option><option>۳</option><option>۴</option><option>۵</option>
             </select>
           </div>
         </td>
       </tr>
-      <tr><td colspan="2"><div class="flex-row">شغل فعلی و سابقه مشاغل قبلی: <input type="text" id="job_history"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">میزان درآمد: <input type="text" id="income"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">شغل فعلی و سابقه مشاغل قبلی: <input type="text" id="job_history" style="width:550px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">میزان درآمد: <input type="text" id="income" style="width:600px;"></div></td></tr>
+      
       <tr class="merge-top">
         <td colspan="2"><div class="flex-row">دغدغه فعلی:
-            <span class="checkbox-group">درآمد<input type="checkbox" id="d_daramad"></span>
-            <span class="checkbox-group">زمان<input type="checkbox" id="d_zaman"></span>
-            <span class="checkbox-group">پیشرفت<input type="checkbox" id="d_pishraft"></span>
-            <span class="checkbox-group">امنیت شغلی<input type="checkbox" id="d_amniat"></span>
+            <label class="checkbox-group">درآمد<input type="checkbox" id="d_daramad"></label>
+            <label class="checkbox-group">زمان<input type="checkbox" id="d_zaman"></label>
+            <label class="checkbox-group">پیشرفت<input type="checkbox" id="d_pishraft"></label>
+            <label class="checkbox-group">امنیت شغلی<input type="checkbox" id="d_amniat"></label>
         </div></td>
       </tr>
-      <tr class="merge-bottom"><td colspan="2"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
+      <tr class="merge-bottom"><td colspan="2"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1" style="width:600px;"></div></td></tr>
+      
       <tr class="merge-top">
         <td colspan="2"><div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
-            <span class="checkbox-group">اجتماعی<input type="checkbox" id="v_ejtemai"></span>
-            <span class="checkbox-group">ریسک‌پذیر<input type="checkbox" id="v_risk"></span>
-            <span class="checkbox-group">مستقل<input type="checkbox" id="v_mostaghel"></span>
-            <span class="checkbox-group">مذهبی<input type="checkbox" id="v_mazhabi"></span>
-            <span class="checkbox-group">رُک<input type="checkbox" id="v_rok"></span>
-            <span class="checkbox-group">شکاک<input type="checkbox" id="v_shakak"></span>
-            <span class="checkbox-group">رفیق‌باز<input type="checkbox" id="v_rafigh"></span>
+            <label class="checkbox-group">اجتماعی<input type="checkbox" id="v_ejtemai"></label>
+            <label class="checkbox-group">ریسک‌پذیر<input type="checkbox" id="v_risk"></label>
+            <label class="checkbox-group">مستقل<input type="checkbox" id="v_mostaghel"></label>
+            <label class="checkbox-group">مذهبی<input type="checkbox" id="v_mazhabi"></label>
+            <label class="checkbox-group">رُک<input type="checkbox" id="v_rok"></label>
+            <label class="checkbox-group">شکاک<input type="checkbox" id="v_shakak"></label>
+            <label class="checkbox-group">رفیق‌باز<input type="checkbox" id="v_rafigh"></label>
         </div></td>
       </tr>
       <tr class="merge-bottom">
         <td colspan="2"><div class="flex-row">
-            <span class="checkbox-group">خواستار تجربه‌های تازه<input type="checkbox" id="exp_new"></span>
-            <span class="checkbox-group">اهمیت‌دهنده به حرف اطرافیان<input type="checkbox" id="atrafian"></span>
-            توضیحات بیشتر: <input type="text" id="desc2">
+            <label class="checkbox-group">خواستار تجربه‌های تازه<input type="checkbox" id="exp_new"></label>
+            <label class="checkbox-group">اهمیت‌دهنده به حرف اطرافیان<input type="checkbox" id="atrafian"></label>
+            توضیحات بیشتر: <input type="text" id="desc2" style="width:400px;">
         </div></td>
       </tr>
-      <tr><td colspan="2"><div class="flex-row">سرگرمی‌های مورد علاقه: <input type="text" id="hobbies"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">میزان آشنایی با علم روز و بازاریابی شبکه‌ای: <input type="text" id="mlm_knowledge"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">تاریخ آخرین دیدار و علت دیدار: <input type="text" id="last_visit"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">آخرین خاطره مشترک: <input type="text" id="memory"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">نیازهای امروزه و بزرگترین اهداف: <input type="text" id="goals"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">چالش‌های زندگی: <input type="text" id="challenges"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">اطلاعات داده شده در زنگ دعوت (دید کاری): <input type="text" id="invite_info"></div></td></tr>
+      
+      <tr><td colspan="2"><div class="flex-row">سرگرمی‌های مورد علاقه: <input type="text" id="hobbies" style="width:600px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">میزان آشنایی با علم روز و بازاریابی شبکه‌ای: <input type="text" id="mlm_knowledge" style="width:450px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">تاریخ آخرین دیدار و علت دیدار: <input type="text" id="last_visit" style="width:550px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">آخرین خاطره مشترک: <input type="text" id="memory" style="width:600px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">نیازهای امروزه و بزرگترین اهداف: <input type="text" id="goals" style="width:550px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">چالش‌های زندگی: <input type="text" id="challenges" style="width:600px;"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">اطلاعات داده شده در زنگ دعوت (دید کاری): <input type="text" id="invite_info" style="width:450px;"></div></td></tr>
       <tr><td colspan="2"><div class="flex-row">آدرس اینستاگرام: <input type="text" id="instagram"></div></td></tr>
       <tr><td colspan="2" style="height:100px; vertical-align:top;">توضیحات باقیمانده: <textarea id="final_desc" rows="4"></textarea></td></tr>
 
@@ -189,7 +207,8 @@
   </div>
 
   <div class="controls">
-    <button class="btn-download" onclick="downloadJPG()">دانلود JPG</button>
+    <button class="btn-backup" onclick="saveBackup()">پشتیبان</button>
+    <button class="btn-download" onclick="downloadJPG()">دانلود JPG نهایی</button>
   </div>
 
   <script>
@@ -197,15 +216,34 @@
       const el = document.getElementById('capture-area');
       const instaField = document.getElementById('instagram');
       const originalVal = instaField.value;
-      if(originalVal && !originalVal.startsWith('\u200E')){ instaField.value = '\u200E' + originalVal; }
 
-      html2canvas(el, { scale: 3, backgroundColor: '#ffffff', useCORS: true }).then(canvas => {
+      // حل مشکل نمایش @ در خروجی عکس
+      if(originalVal && !originalVal.startsWith('\u200E')){
+          instaField.value = '\u200E' + originalVal;
+      }
+
+      html2canvas(el, {
+        scale: 3, 
+        backgroundColor: '#ffffff',
+        useCORS: true
+      }).then(canvas => {
         const a = document.createElement('a');
         a.download = 'biography.jpg';
         a.href = canvas.toDataURL('image/jpeg', 0.98);
         a.click();
         instaField.value = originalVal;
       });
+    }
+
+    function saveBackup(){
+      const data={};
+      document.querySelectorAll('input, textarea, select').forEach(el=>{
+        data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
+      });
+      const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='backup.json'; a.click();
     }
 
     document.querySelectorAll('textarea').forEach(t=>{
