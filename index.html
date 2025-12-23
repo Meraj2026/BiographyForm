@@ -76,22 +76,27 @@
 
     button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-family: Tahoma; font-weight: bold; }
     .btn-download { background: #27ae60; color: #fff; }
+    .btn-backup { background: #2980b9; color: #fff; }
+    .btn-restore { background: #f39c12; color: #fff; }
+    #fileInput { display: none; }
 
-    /* استایل اصلاح شده سطر آخر با عرض ۱۱۰ پیکسل */
+    /* استایل اصلاح شده سطر آخر طبق درخواست شما */
     .footer-row td { 
       font-weight: bold; 
       font-size: 20px; 
-      padding: 15px 5px; 
-      line-height: 1.2; 
-      letter-spacing: -0.5px; /* فشرده‌سازی جزئی برای جا شدن کلمه پرزنتور */
+      padding: 18px 5px; /* کاهش جزئی پدینگ کناری برای فضای بیشتر */
+      line-height: 1.4;
+      letter-spacing: -0.5px; /* فشرده‌سازی بسیار کم متن برای جا شدن کلمات */
     }
     
     .footer-input {
-      width: 110px !important; /* بازگشت به ۱۱۰ پیکسل طبق درخواست شما */
+      width: 120px !important; /* تنظیم روی ۱۲۰ پیکسل */
       text-align: center !important; 
       font-size: 20px !important;
       padding: 0 !important;
-      margin: 0 2px;
+      margin: 0 1px;
+      display: inline-block;
+      vertical-align: middle;
     }
     
     #instagram { 
@@ -195,7 +200,10 @@
   </div>
 
   <div class="controls">
+    <button class="btn-backup" onclick="saveBackup()">پشتیبان</button>
+    <button class="btn-restore" onclick="document.getElementById('fileInput').click()">بازیابی</button>
     <button class="btn-download" onclick="downloadJPG()">دانلود JPG</button>
+    <input type="file" id="fileInput" accept=".json" onchange="restoreBackup(event)">
   </div>
 
   <script>
@@ -212,6 +220,33 @@
         a.click();
         instaField.value = originalVal;
       });
+    }
+
+    function saveBackup(){
+      const data={};
+      document.querySelectorAll('input, textarea, select').forEach(el=>{
+        data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
+      });
+      const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='backup.json'; a.click();
+    }
+
+    function restoreBackup(e){
+      const file=e.target.files[0]; if(!file) return;
+      const reader=new FileReader();
+      reader.onload=(ev)=>{
+        const data=JSON.parse(ev.target.result);
+        for(const id in data){
+          const el=document.getElementById(id);
+          if(el) {
+            if(el.type==='checkbox') el.checked=!!data[id];
+            else el.value=data[id];
+          }
+        }
+      };
+      reader.readAsText(file);
     }
 
     document.querySelectorAll('textarea').forEach(t=>{
