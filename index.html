@@ -21,7 +21,6 @@
       width: 800px;
       padding: 20px;
       border: 2px solid #000;
-      box-shadow: 0 0 10px rgba(0,0,0,.1);
     }
 
     table { width: 100%; border-collapse: collapse; border: 2px solid #000; }
@@ -37,35 +36,21 @@
     .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; }
 
     input[type="text"], textarea {
-      border: none; 
-      outline: none; 
-      background: transparent;
-      color: red; 
-      font-size: 15px; 
-      font-weight: bold; 
+      border: none; outline: none; background: transparent;
+      color: red; font-size: 15px; font-weight: bold;
       font-family: Tahoma, sans-serif;
-      text-align: right; 
-      direction: rtl;
-      width: auto; 
-      flex-grow: 1;
-      line-height: 1.8; 
-      padding-bottom: 2px;
+      text-align: right; direction: rtl;
+      width: auto; flex-grow: 1;
+      line-height: 1.8; padding-bottom: 2px;
     }
     
     textarea { width: 100%; resize: none; overflow: hidden; display: block; }
 
     .answer-select {
-      border: none; 
-      outline: none; 
-      background: transparent;
-      color: red;
-      font-size: 15px; 
-      font-weight: bold; 
+      border: none; outline: none; background: transparent;
+      color: red; font-size: 15px; font-weight: bold;
       font-family: Tahoma, sans-serif;
-      text-align: right;
-      direction: rtl;
-      width: auto; 
-      flex-grow: 1;
+      text-align: right; direction: rtl;
       appearance: none;
       background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff0000" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
       background-repeat: no-repeat;
@@ -74,80 +59,53 @@
       line-height: 1.8;
       cursor: pointer;
     }
-    
-    .answer-select option { color: black; background: white; font-weight: normal; }
 
-    .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
+    .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; }
     
-    /* استایل جدید و سفارشی برای چک‌باکس جهت نمایش حتمی در عکس */
-    .checkbox-group { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 5px; 
-      margin-left: 10px; 
-      direction: rtl; 
+    /* استایل تیک‌ها برای نمایش صحیح در عکس */
+    .checkbox-container {
+      display: inline-flex;
+      align-items: center;
       cursor: pointer;
-      position: relative;
+      margin-left: 10px;
+      gap: 4px;
     }
 
-    input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
+    .custom-box {
       width: 18px;
       height: 18px;
-      border: 2px solid #555;
+      border: 1.5px solid #333;
       border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #fff;
-      cursor: pointer;
-      position: relative;
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0;
+      color: transparent; /* در حالت عادی تیک مخفی است */
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.2s;
     }
 
-    input[type="checkbox"]:checked {
-      background-color: #fff;
+    /* وقتی چک‌باکس واقعی تیک بخورد، باکس نمایشی قرمز می‌شود */
+    input[type="checkbox"]:checked + .custom-box {
+      color: red;
       border-color: red;
     }
 
-    input[type="checkbox"]:checked::after {
-      content: '✔';
-      position: absolute;
-      color: red;
-      font-size: 14px;
-      font-weight: bold;
-      left: 1px;
-      top: -3px;
+    /* مخفی کردن چک‌باکس اصلی */
+    input[type="checkbox"] {
+      display: none;
     }
 
     .controls {
-      margin-top: 20px; 
-      display: flex; 
-      gap: 10px; 
-      background: #fff;
-      padding: 15px; 
-      border-radius: 8px; 
-      box-shadow: 0 2px 5px rgba(0,0,0,.2);
-      width: 800px; 
-      justify-content: center; 
-      box-sizing: border-box;
+      margin-top: 20px; display: flex; gap: 10px; background: #fff;
+      padding: 15px; border-radius: 8px; width: 800px; justify-content: center;
     }
 
-    button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; transition: .3s; font-family: Tahoma; font-weight: bold; }
+    button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-family: Tahoma; font-weight: bold; }
     .btn-download { background: #27ae60; color: #fff; }
     .btn-backup { background: #2980b9; color: #fff; }
     .btn-restore { background: #f39c12; color: #fff; }
-
-    #fileInput { display: none; }
-    tr.merge-top td { border-bottom: none !important; }
-    tr.merge-bottom td { border-top: none !important; }
-
-    .footer-row td {
-      font-weight: bold;
-      font-size: 21px;
-      padding-top: 16px;
-      padding-bottom: 16px;
-    }
     
     #instagram { direction: ltr; text-align: left; }
   </style>
@@ -157,28 +115,23 @@
   <div id="capture-area">
     <table>
       <tr><td colspan="2" class="header-cell">برگه بیوگرافی</td></tr>
-
       <tr>
         <td width="50%"><div class="flex-row">نام و نام خانوادگی معرف: <input type="text" id="moaref_name"></div></td>
         <td width="50%"><div class="flex-row">نام و نام خانوادگی پراسپکت: <input type="text" id="prospect_name"></div></td>
       </tr>
-
       <tr>
         <td><div class="flex-row">ساعت دقیق و تاریخ پرزنت: <input type="text" id="present_date"></div></td>
         <td><div class="flex-row">سن پراسپکت: <input type="text" id="prospect_age"></div></td>
       </tr>
-
       <tr>
         <td><div class="flex-row">مکان پرزنت: <input type="text" id="present_location"></div></td>
         <td><div class="flex-row">نسبت با معرف: <input type="text" id="relation"></div></td>
       </tr>
-
       <tr>
         <td>
-          <div class="flex-row">
-            تحصیلات:
-            <select id="education" class="answer-select" required>
-              <option value="" disabled selected>انتخاب کنید</option>
+          <div class="flex-row">تحصیلات:
+            <select id="education" class="answer-select">
+              <option value="">انتخاب کنید</option>
               <option value="زیر دیپلم">زیر دیپلم</option>
               <option value="دیپلم">دیپلم</option>
               <option value="لیسانس">لیسانس</option>
@@ -189,13 +142,11 @@
         </td>
         <td><div class="flex-row">رشته تحصیلی: <input type="text" id="major"></div></td>
       </tr>
-
       <tr>
         <td>
-          <div class="flex-row">
-            وضعیت تأهل: 
-            <select id="marriage" class="answer-select" required>
-              <option value="" disabled selected>انتخاب کنید</option>
+          <div class="flex-row">وضعیت تأهل: 
+            <select id="marriage" class="answer-select">
+              <option value="">انتخاب کنید</option>
               <option value="مجرد">مجرد</option>
               <option value="متأهل">متأهل</option>
               <option value="مطلقه">مطلقه</option>
@@ -204,71 +155,55 @@
           </div>
         </td>
         <td>
-          <div class="flex-row">
-            تعداد فرزند:
-            <select id="children" class="answer-select" required>
-              <option value="" disabled selected>انتخاب کنید</option>
+          <div class="flex-row">تعداد فرزند:
+            <select id="children" class="answer-select">
               <option value="۰">۰</option><option value="۱">۱</option><option value="۲">۲</option>
               <option value="۳">۳</option><option value="۴">۴</option><option value="۵">۵</option>
-              <option value="۶">۶</option><option value="۷">۷</option><option value="۸">۸</option>
-              <option value="۹">۹</option><option value="۱۰">۱۰</option>
             </select>
           </div>
         </td>
       </tr>
-
       <tr><td colspan="2"><div class="flex-row">شغل فعلی و سابقه مشاغل قبلی: <input type="text" id="job_history"></div></td></tr>
       <tr><td colspan="2"><div class="flex-row">میزان درآمد: <input type="text" id="income"></div></td></tr>
 
-      <tr class="merge-top">
-        <td colspan="2"><div class="flex-row">دغدغه فعلی:
-            <label class="checkbox-group">درآمد<input type="checkbox" id="d_daramad"></label>
-            <label class="checkbox-group">زمان<input type="checkbox" id="d_zaman"></label>
-            <label class="checkbox-group">پیشرفت<input type="checkbox" id="d_pishraft"></label>
-            <label class="checkbox-group">امنیت شغلی<input type="checkbox" id="d_amniat"></label>
-        </div></td>
+      <tr>
+        <td colspan="2">
+          <div class="flex-row">دغدغه فعلی:
+            <label class="checkbox-container">درآمد <input type="checkbox" id="d_daramad"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">زمان <input type="checkbox" id="d_zaman"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">پیشرفت <input type="checkbox" id="d_pishraft"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">امنیت شغلی <input type="checkbox" id="d_amniat"><span class="custom-box">✔</span></label>
+          </div>
+        </td>
       </tr>
-      <tr class="merge-bottom"><td colspan="2"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
+      <tr><td colspan="2"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
 
-      <tr class="merge-top">
-        <td colspan="2"><div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
-            <label class="checkbox-group">اجتماعی<input type="checkbox" id="v_ejtemai"></label>
-            <label class="checkbox-group">ریسک‌پذیر<input type="checkbox" id="v_risk"></label>
-            <label class="checkbox-group">مستقل<input type="checkbox" id="v_mostaghel"></label>
-            <label class="checkbox-group">مذهبی<input type="checkbox" id="v_mazhabi"></label>
-            <label class="checkbox-group">رُک<input type="checkbox" id="v_rok"></label>
-            <label class="checkbox-group">شکاک<input type="checkbox" id="v_shakak"></label>
-            <label class="checkbox-group">رفیق‌باز<input type="checkbox" id="v_rafigh"></label>
-        </div></td>
+      <tr>
+        <td colspan="2">
+          <div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
+            <label class="checkbox-container">اجتماعی <input type="checkbox" id="v_ejtemai"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">ریسک‌پذیر <input type="checkbox" id="v_risk"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">مستقل <input type="checkbox" id="v_mostaghel"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">مذهبی <input type="checkbox" id="v_mazhabi"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">رُک <input type="checkbox" id="v_rok"><span class="custom-box">✔</span></label>
+            <label class="checkbox-container">شکاک <input type="checkbox" id="v_shakak"><span class="custom-box">✔</span></label>
+          </div>
+        </td>
       </tr>
-      <tr class="merge-bottom">
-        <td colspan="2"><div class="flex-row">
-            <label class="checkbox-group">خواستار تجربه‌های تازه<input type="checkbox" id="exp_new"></label>
-            <label class="checkbox-group">اهمیت‌دهنده به حرف اطرافیان<input type="checkbox" id="atrafian"></label>
-            توضیحات بیشتر: <input type="text" id="desc2">
-        </div></td>
-      </tr>
-
-      <tr><td colspan="2"><div class="flex-row">سرگرمی‌های مورد علاقه: <input type="text" id="hobbies"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">میزان آشنایی با علم روز و بازاریابی شبکه‌ای: <input type="text" id="mlm_knowledge"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">تاریخ آخرین دیدار و علت دیدار: <input type="text" id="last_visit"></div></td></tr>
       <tr><td colspan="2"><div class="flex-row">آخرین خاطره مشترک: <input type="text" id="memory"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">نیازهای امروزه و بزرگترین اهداف: <input type="text" id="goals"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">چالش‌های زندگی: <input type="text" id="challenges"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">اطلاعات داده شده در زنگ دعوت (دید کاری): <input type="text" id="invite_info"></div></td></tr>
       <tr><td colspan="2"><div class="flex-row">آدرس اینستاگرام: <input type="text" id="instagram"></div></td></tr>
-      <tr><td colspan="2" style="height:100px; vertical-align:top;">توضیحات باقیمانده: <textarea id="final_desc" rows="4"></textarea></td></tr>
-
+      <tr><td colspan="2" style="height:100px; vertical-align:top;">توضیحات باقیمانده: <textarea id="final_desc" rows="3"></textarea></td></tr>
+      
       <tr class="footer-row">
         <td colspan="2">
-          اینجانب ( <input type="text" id="footer_me" style="width:120px;"> ) درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور از آقا / خانم ( <input type="text" id="footer_target" style="width:120px;"> ) را دارم.
+          اینجانب ( <input type="text" id="footer_me" style="width:120px;"> ) درخواست تأییدیه جهت زنگ دعوت...
         </td>
       </tr>
     </table>
   </div>
 
   <div class="controls">
-    <button class="btn-backup" onclick="saveBackup()">پشتیبان (JSON)</button>
+    <button class="btn-backup" onclick="saveBackup()">پشتیبان</button>
     <button class="btn-restore" onclick="document.getElementById('fileInput').click()">بازیابی</button>
     <button class="btn-download" onclick="downloadJPG()">دانلود JPG</button>
     <input type="file" id="fileInput" accept=".json" onchange="restoreBackup(event)">
@@ -279,13 +214,12 @@
       const el = document.getElementById('capture-area');
       html2canvas(el, {
         scale: 3, 
-        backgroundColor: '#ffffff', 
         useCORS: true,
-        letterRendering: 1
+        backgroundColor: '#ffffff'
       }).then(canvas => {
         const a = document.createElement('a');
-        a.download = 'biography-sheet.jpg';
-        a.href = canvas.toDataURL('image/jpeg', 0.98);
+        a.download = 'biography.jpg';
+        a.href = canvas.toDataURL('image/jpeg', 0.95);
         a.click();
       });
     }
@@ -296,34 +230,24 @@
         data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
       });
       const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
-      const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
-      a.href=url; a.download='backup-biography.json'; a.click();
-      URL.revokeObjectURL(url);
+      a.href=URL.createObjectURL(blob); a.download='backup.json'; a.click();
     }
 
     function restoreBackup(e){
-      const file=e.target.files[0]; if(!file) return;
       const reader=new FileReader();
       reader.onload=(ev)=>{
-        try{
-          const data=JSON.parse(ev.target.result);
-          for(const id in data){
-            const el=document.getElementById(id);
-            if(!el) continue;
-            if(el.type==='checkbox') el.checked=!!data[id];
+        const data=JSON.parse(ev.target.result);
+        for(const id in data){
+          const el=document.getElementById(id);
+          if(el) {
+            if(el.type==='checkbox') el.checked=data[id];
             else el.value=data[id];
           }
-          alert('اطلاعات با موفقیت بازیابی شد.');
-        }catch(err){ alert('فایل نامعتبر است.'); }
+        }
       };
-      reader.readAsText(file);
+      reader.readAsText(e.target.files[0]);
     }
-
-    document.querySelectorAll('textarea').forEach(t=>{
-      const fit=()=>{ t.style.height='auto'; t.style.height=t.scrollHeight+'px'; };
-      t.addEventListener('input',fit); fit();
-    });
   </script>
 </body>
 </html>
