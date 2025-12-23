@@ -2,45 +2,50 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    body{
+    /* تنظیمات کلی برای نمایش درست در موبایل */
+    body {
       font-family: Tahoma, Arial, sans-serif;
-      background:#f0f0f0;
-      display:flex; flex-direction:column; align-items:center;
-      padding:10px;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
       margin: 0;
     }
 
-    /* کانتینر اصلی برای کنترل مقیاس در موبایل */
-    #outer-wrapper {
+    /* این بخش باعث می‌شود جدول در موبایل بیرون نزند و اسکرول بخورد */
+    .table-container {
       width: 100%;
+      overflow-x: auto;
       display: flex;
-      justify-content: center;
-      overflow: hidden; /* جلوگیری از بیرون زدگی */
+      flex-direction: column;
+      align-items: center;
+      -webkit-overflow-scrolling: touch;
     }
 
-    #capture-area{
-      background:#fff;
-      width:800px; /* ثابت ماندن عرض طبق درخواست شما */
-      padding:20px;
-      border:2px solid #000;
-      box-shadow:0 0 10px rgba(0,0,0,.1);
-      transform-origin: top center; /* نقطه ثقل برای کوچک شدن */
+    #capture-area {
+      background: #fff;
+      width: 800px; /* ابعاد ثابت مورد نظر شما */
+      min-width: 800px; /* جلوگیری از تغییر سایز در هر شرایطی */
+      padding: 20px;
+      border: 2px solid #000;
+      box-shadow: 0 0 10px rgba(0,0,0,.1);
     }
 
-    table{ width:100%; border-collapse:collapse; border:2px solid #000; }
-    td{ border:1px solid #000; padding:8px; vertical-align:middle; font-size:14px; line-height:1.6; }
-    .header-cell{ text-align:center; font-weight:bold; font-size:20px; padding:15px; }
+    table { width: 100%; border-collapse: collapse; border: 2px solid #000; }
+    td { border: 1px solid #000; padding: 8px; vertical-align: middle; font-size: 14px; line-height: 1.6; }
+    .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; }
 
-    input[type="text"], textarea{
-      border:none; outline:none; background:transparent;
-      color:red; font-size:14px; font-family:Tahoma, sans-serif;
-      width:auto; flex-grow:1;
+    input[type="text"], textarea {
+      border: none; outline: none; background: transparent;
+      color: red; font-size: 14px; font-family: Tahoma, sans-serif;
+      width: auto; flex-grow: 1;
     }
-    textarea{ width:100%; resize:none; overflow:hidden; }
+    textarea { width: 100%; resize: none; overflow: hidden; }
 
     .answer-select {
       border: none; outline: none; background: transparent;
@@ -57,46 +62,37 @@
     .answer-select:valid { color: red; }
     .answer-select option[disabled] { color: #888; }
 
-    .flex-row{ display:flex; align-items:center; gap:5px; }
-    .checkbox-group{ display:inline-flex; align-items:center; gap:3px; margin-left:10px; }
-    input[type="checkbox"]{ cursor:pointer; }
+    .flex-row { display: flex; align-items: center; gap: 5px; }
+    .checkbox-group { display: inline-flex; align-items: center; gap: 3px; margin-left: 10px; }
+    input[type="checkbox"] { cursor: pointer; }
 
-    .controls{
-      margin-top:20px; display:flex; flex-wrap: wrap; justify-content: center; gap:10px; background:#fff;
-      padding:15px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,.2);
-      width: 100%; max-width: 800px;
+    .controls {
+      margin: 20px 0; display: flex; gap: 10px; background: #fff;
+      padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,.2);
+      flex-wrap: wrap; justify-content: center;
     }
-    button{ padding:10px 20px; cursor:pointer; border:none; border-radius:5px; transition:.3s; font-family:Tahoma; font-size: 12px; }
-    .btn-download{ background:#27ae60; color:#fff; }
-    .btn-backup{ background:#2980b9; color:#fff; }
-    .btn-restore{ background:#f39c12; color:#fff; }
-    button:hover{ opacity:.85; }
+    button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; transition: .3s; font-family: Tahoma; }
+    .btn-download { background: #27ae60; color: #fff; }
+    .btn-backup { background: #2980b9; color: #fff; }
+    .btn-restore { background: #f39c12; color: #fff; }
+    button:hover { opacity: .85; }
 
-    #fileInput{ display:none; }
+    #fileInput { display: none; }
 
-    tr.merge-top td{ border-bottom:none !important; }
-    tr.merge-bottom td{ border-top:none !important; }
+    tr.merge-top td { border-bottom: none !important; }
+    tr.merge-bottom td { border-top: none !important; }
 
-    .footer-row td{
-      font-weight:bold;
-      font-size:18px;
-      padding-top:16px;
-      padding-bottom:16px;
-    }
-
-    /* استایل جادویی برای موبایل */
-    @media (max-width: 840px) {
-      #capture-area {
-        /* محاسبه نسبت عرض صفحه به عرض جدول برای کوچک‌سازی دقیق */
-        transform: scale(calc(window.innerWidth / 850)); 
-        margin-bottom: calc(-800px * (1 - (window.innerWidth / 850))); /* رفع فضای خالی ایجاد شده بعد از اسکیل */
-      }
+    .footer-row td {
+      font-weight: bold;
+      font-size: 21px;
+      padding-top: 16px;
+      padding-bottom: 16px;
     }
   </style>
 </head>
 <body>
 
-  <div id="outer-wrapper">
+  <div class="table-container">
     <div id="capture-area">
       <table>
         <tr><td colspan="2" class="header-cell">برگه بیوگرافی</td></tr>
@@ -151,17 +147,10 @@
               تعداد فرزند:
               <select id="children" class="answer-select" required>
                 <option value="" disabled selected>انتخاب کنید</option>
-                <option value="۰">۰</option>
-                <option value="۱">۱</option>
-                <option value="۲">۲</option>
-                <option value="۳">۳</option>
-                <option value="۴">۴</option>
-                <option value="۵">۵</option>
-                <option value="۶">۶</option>
-                <option value="۷">۷</option>
-                <option value="۸">۸</option>
-                <option value="۹">۹</option>
-                <option value="۱۰">۱۰</option>
+                <option value="۰">۰</option><option value="۱">۱</option><option value="۲">۲</option>
+                <option value="۳">۳</option><option value="۴">۴</option><option value="۵">۵</option>
+                <option value="۶">۶</option><option value="۷">۷</option><option value="۸">۸</option>
+                <option value="۹">۹</option><option value="۱۰">۱۰</option>
               </select>
             </div>
           </td>
@@ -271,45 +260,21 @@
   </div>
 
   <div class="controls">
-    <button class="btn-backup" onclick="saveBackup()">بارگیری نسخه پشتیبان (JSON)</button>
-    <button class="btn-restore" onclick="document.getElementById('fileInput').click()">بازیابی نسخه پشتیبان</button>
-    <button class="btn-download" onclick="downloadJPG()">دانلود بصورت JPG</button>
+    <button class="btn-backup" onclick="saveBackup()">نسخه پشتیبان (JSON)</button>
+    <button class="btn-restore" onclick="document.getElementById('fileInput').click()">بازیابی پشتیبان</button>
+    <button class="btn-download" onclick="downloadJPG()">دانلود JPG</button>
     <input type="file" id="fileInput" accept=".json" onchange="restoreBackup(event)">
   </div>
 
   <script>
-    // اسکریپت برای تنظیم مقیاس دقیق در لحظه لود و تغییر سایز صفحه
-    function adjustScale() {
-      const area = document.getElementById('capture-area');
-      const width = window.innerWidth;
-      if (width < 840) {
-        const scale = width / 840;
-        area.style.transform = `scale(${scale})`;
-        area.style.marginBottom = `calc(-800px * (1 - ${scale}))`;
-      } else {
-        area.style.transform = 'scale(1)';
-        area.style.marginBottom = '0';
-      }
-    }
-    window.addEventListener('resize', adjustScale);
-    window.addEventListener('load', adjustScale);
-
     function downloadJPG(){
       const el = document.getElementById('capture-area');
-      // حذف موقت استایل Scale برای خروجی گرفتن با کیفیت اصلی
-      const currentTransform = el.style.transform;
-      const currentMargin = el.style.marginBottom;
-      el.style.transform = 'none';
-      el.style.marginBottom = '0';
-
       html2canvas(el, {scale:2, backgroundColor:'#ffffff', useCORS:true})
         .then(canvas=>{
           const a=document.createElement('a');
           a.download='biography-sheet.jpg';
           a.href=canvas.toDataURL('image/jpeg',0.92);
           a.click();
-          // بازگرداندن استایل موبایل
-          adjustScale();
         });
     }
 
