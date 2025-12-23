@@ -49,7 +49,6 @@
       width: auto; 
       flex-grow: 1;
       line-height: 1.8;
-      padding-bottom: 2px;
     }
     
     textarea { width: 100%; resize: none; overflow: hidden; display: block; }
@@ -66,9 +65,7 @@
     
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; cursor: pointer; }
-
     .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
-
     input[type="checkbox"] { cursor: pointer; transform: scale(1.1); margin: 0; }
 
     .controls {
@@ -79,25 +76,21 @@
 
     button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-family: Tahoma; font-weight: bold; }
     .btn-download { background: #27ae60; color: #fff; }
-    .btn-backup { background: #2980b9; color: #fff; }
-    .btn-restore { background: #f39c12; color: #fff; }
 
-    #fileInput { display: none; }
-    tr.merge-top td { border-bottom: none !important; }
-    tr.merge-bottom td { border-top: none !important; }
-
+    /* استایل اصلاح شده سطر آخر */
     .footer-row td { 
       font-weight: bold; 
       font-size: 20px; 
-      padding: 18px 8px; 
-      line-height: 1.6;
+      padding: 15px 8px; 
+      line-height: 1.4; /* کاهش فاصله بین خطوط برای جا شدن بهتر */
     }
     
     .footer-input {
-      width: 110px; /* کوتاه کردن فضا برای جابجایی کلمه پرزنتور */
+      width: 60px !important; /* بسیار کوتاه برای جا شدن کلمه پرزنتور در خط اول */
       text-align: center !important; 
       font-size: 20px !important;
-      display: inline-block;
+      padding: 0 !important;
+      margin: 0 2px;
     }
     
     #instagram { 
@@ -127,13 +120,9 @@
       <tr>
         <td>
           <div class="flex-row">تحصیلات:
-            <select id="education" class="answer-select" required>
+            <select id="education" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
-              <option value="زیر دیپلم">زیر دیپلم</option>
-              <option value="دیپلم">دیپلم</option>
-              <option value="لیسانس">لیسانس</option>
-              <option value="فوق لیسانس">فوق لیسانس</option>
-              <option value="دکتری">دکتری</option>
+              <option>زیر دیپلم</option><option>دیپلم</option><option>لیسانس</option><option>فوق لیسانس</option><option>دکتری</option>
             </select>
           </div>
         </td>
@@ -142,21 +131,17 @@
       <tr>
         <td>
           <div class="flex-row">وضعیت تأهل: 
-            <select id="marriage" class="answer-select" required>
+            <select id="marriage" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
-              <option value="مجرد">مجرد</option><option value="متأهل">متأهل</option>
-              <option value="مطلقه">مطلقه</option><option value="بیوه">بیوه</option>
+              <option>مجرد</option><option>متأهل</option><option>مطلقه</option><option>بیوه</option>
             </select>
           </div>
         </td>
         <td>
           <div class="flex-row">تعداد فرزند:
-            <select id="children" class="answer-select" required>
+            <select id="children" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
-              <option value="۰">۰</option><option value="۱">۱</option><option value="۲">۲</option>
-              <option value="۳">۳</option><option value="۴">۴</option><option value="۵">۵</option>
-              <option value="۶">۶</option><option value="۷">۷</option><option value="۸">۸</option>
-              <option value="۹">۹</option><option value="۱۰">۱۰</option>
+              <option>۰</option><option>۱</option><option>۲</option><option>۳</option><option>۴</option><option>۵</option>
             </select>
           </div>
         </td>
@@ -209,10 +194,7 @@
   </div>
 
   <div class="controls">
-    <button class="btn-backup" onclick="saveBackup()">پشتیبان</button>
-    <button class="btn-restore" onclick="document.getElementById('fileInput').click()">بازیابی</button>
     <button class="btn-download" onclick="downloadJPG()">دانلود JPG</button>
-    <input type="file" id="fileInput" accept=".json" onchange="restoreBackup(event)">
   </div>
 
   <script>
@@ -220,50 +202,15 @@
       const el = document.getElementById('capture-area');
       const instaField = document.getElementById('instagram');
       const originalVal = instaField.value;
+      if(originalVal && !originalVal.startsWith('\u200E')){ instaField.value = '\u200E' + originalVal; }
 
-      if(originalVal && !originalVal.startsWith('\u200E')){
-          instaField.value = '\u200E' + originalVal;
-      }
-
-      html2canvas(el, {
-        scale: 3, 
-        backgroundColor: '#ffffff', 
-        useCORS: true,
-        letterRendering: 1
-      }).then(canvas => {
+      html2canvas(el, { scale: 3, backgroundColor: '#ffffff' }).then(canvas => {
         const a = document.createElement('a');
-        a.download = 'biography-sheet.jpg';
+        a.download = 'biography.jpg';
         a.href = canvas.toDataURL('image/jpeg', 0.98);
         a.click();
         instaField.value = originalVal;
       });
-    }
-
-    function saveBackup(){
-      const data={};
-      document.querySelectorAll('input, textarea, select').forEach(el=>{
-        data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
-      });
-      const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      a.href=url; a.download='backup.json'; a.click();
-    }
-
-    function restoreBackup(e){
-      const file=e.target.files[0]; if(!file) return;
-      const reader=new FileReader();
-      reader.onload=(ev)=>{
-        const data=JSON.parse(ev.target.result);
-        for(const id in data){
-          const el=document.getElementById(id);
-          if(el) {
-            if(el.type==='checkbox') el.checked=!!data[id];
-            else el.value=data[id];
-          }
-        }
-      };
-      reader.readAsText(file);
     }
 
     document.querySelectorAll('textarea').forEach(t=>{
