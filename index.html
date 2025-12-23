@@ -79,7 +79,6 @@
 
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     
-    /* استایل هوشمند برای تغییر رنگ عنوان پاسخ‌ها هنگام تیک خوردن */
     .checkbox-group { 
       display: inline-flex; 
       align-items: center; 
@@ -87,10 +86,8 @@
       margin-left: 10px; 
       direction: rtl; 
       cursor: pointer;
-      transition: color 0.2s;
     }
 
-    /* وقتی چک‌باکس داخل این گروه تیک بخورد، رنگ متنِ گروه قرمز و بولد می‌شود */
     .checkbox-group:has(input:checked) {
       color: red;
       font-weight: bold;
@@ -131,7 +128,12 @@
       padding-bottom: 16px;
     }
     
-    #instagram { direction: ltr; text-align: left; }
+    /* اصلاح بخش اینستاگرام برای نمایش صحیح کاراکتر @ در خروجی عکس */
+    #instagram { 
+      direction: ltr !important; 
+      text-align: left !important; 
+      unicode-bidi: bidi-override !important;
+    }
   </style>
 </head>
 <body>
