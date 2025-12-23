@@ -67,7 +67,6 @@
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; cursor: pointer; }
 
-    /* قرمز شدن متن پاسخ‌ها هنگام تیک خوردن */
     .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
 
     input[type="checkbox"] { cursor: pointer; transform: scale(1.1); margin: 0; }
@@ -87,14 +86,19 @@
     tr.merge-top td { border-bottom: none !important; }
     tr.merge-bottom td { border-top: none !important; }
 
-    .footer-row td { font-weight: bold; font-size: 21px; padding: 16px; line-height: 2; }
-    
-    /* تنظیم سایز متن داخل پرانتز در فوتر */
-    .footer-row input[type="text"] {
-      font-size: 21px !important;
-      width: 150px;
+    /* اصلاحات اختصاصی سطر آخر بر اساس درخواست شما */
+    .footer-row td { 
+      font-weight: bold; 
+      font-size: 20px; /* سایز کل متن سطر آخر */
+      padding: 18px 8px; 
     }
-
+    
+    .footer-input {
+      width: 150px; 
+      text-align: center !important; /* وسط‌چین کردن متن داخل پرانتز */
+      font-size: 20px !important; /* سایز متن داخل پرانتز */
+    }
+    
     #instagram { 
       direction: ltr !important; 
       text-align: left !important; 
@@ -197,7 +201,7 @@
 
       <tr class="footer-row">
         <td colspan="2">
-          اینجانب ( <input type="text" id="footer_me"> ) درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور از آقا / خانم ( <input type="text" id="footer_target"> ) (اولین فالوئر) را دارم.
+          اینجانب ( <input type="text" id="footer_me" class="footer-input"> ) درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور از آقا / خانم ( <input type="text" id="footer_target" class="footer-input"> ) (اولین فالوئر) را دارم.
         </td>
       </tr>
     </table>
@@ -242,7 +246,7 @@
       const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
-      a.href=url; a.download='backup-biography.json'; a.click();
+      a.href=url; a.download='backup.json'; a.click();
     }
 
     function restoreBackup(e){
