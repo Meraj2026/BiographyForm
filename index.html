@@ -24,15 +24,15 @@
     td{ border:1px solid #000; padding:8px; vertical-align:middle; font-size:14px; line-height:1.6; text-align: right; }
     .header-cell{ text-align:center; font-weight:bold; font-size:20px; padding:15px; }
 
-    /* اصلاح چیدمان برای راست‌چین شدن پاسخ‌ها در عکس */
+    /* سایز فونت پاسخ‌ها روی 15 تنظیم شد */
     input[type="text"], textarea{
       border:none; outline:none; background:transparent;
       color:red; 
-      font-size:16px; 
+      font-size:15px; 
       font-weight: bold; 
       font-family: Tahoma, sans-serif;
-      text-align: right; /* اجبار به راست‌چین بودن */
-      direction: rtl;    /* جهت متن راست به چپ */
+      text-align: right;
+      direction: rtl;
       width:auto; flex-grow:1;
     }
     textarea{ width:100%; resize:none; overflow:hidden; display: block; }
@@ -40,7 +40,7 @@
     .answer-select {
       border: none; outline: none; background: transparent;
       color: red;
-      font-size: 16px; 
+      font-size: 15px; 
       font-weight: bold; 
       font-family: Tahoma, sans-serif;
       text-align: right;
@@ -77,10 +77,8 @@
       font-size:21px;
       padding-top:16px;
       padding-bottom:16px;
-      text-align: justify;
     }
     
-    /* استثنا برای اینستاگرام که انگلیسی است */
     #instagram { direction: ltr; text-align: left; }
   </style>
 </head>
@@ -193,7 +191,6 @@
   <script>
     function downloadJPG(){
       const el = document.getElementById('capture-area');
-      // استفاده از مقیاس بالا برای کیفیت بهتر متن‌های فارسی در عکس
       html2canvas(el, {scale:3, backgroundColor:'#ffffff', useCORS:true})
         .then(canvas=>{
           const a=document.createElement('a');
