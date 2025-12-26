@@ -12,7 +12,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 0; /* حذف پدینگ اضافی از طرفین برای موبایل */
+      padding: 20px 0;
       margin: 0;
     }
 
@@ -22,7 +22,7 @@
       padding: 20px;
       border: 2px solid #000;
       box-shadow: 0 0 10px rgba(0,0,0,.1);
-      box-sizing: border-box; /* برای جلوگیری از بزرگتر شدن عرض از 800 */
+      box-sizing: border-box;
     }
 
     table { width: 100%; border-collapse: collapse; border: 2px solid #000; }
@@ -33,9 +33,11 @@
       font-size: 14px; 
       line-height: 1.8; 
       text-align: right; 
+      /* جلوگیری از شکستن متن عناوین در تمام سلول‌ها */
+      white-space: nowrap; 
     }
     
-    .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; }
+    .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; white-space: normal; }
 
     input[type="text"], textarea {
       border: none; 
@@ -53,7 +55,9 @@
       padding-bottom: 2px;
     }
     
-    textarea { width: 100%; resize: none; overflow: hidden; display: block; }
+    /* استثنا برای متن‌های طولانی داخل TextArea و ردیف‌های ادغامی */
+    textarea { width: 100%; resize: none; overflow: hidden; display: block; white-space: normal; }
+    tr[colspan] td, .footer-row td { white-space: normal; }
 
     .answer-select {
       border: none; outline: none; background: transparent;
@@ -67,9 +71,7 @@
     
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; cursor: pointer; }
-
     .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
-
     input[type="checkbox"] { cursor: pointer; transform: scale(1.1); margin: 0; }
 
     .controls {
@@ -87,7 +89,7 @@
     tr.merge-top td { border-bottom: none !important; }
     tr.merge-bottom td { border-top: none !important; }
 
-    .footer-row td { font-weight: bold; font-size: 21px; padding: 16px; }
+    .footer-row td { font-weight: bold; font-size: 21px; padding: 16px; white-space: normal; }
     
     #instagram { 
       direction: ltr !important; 
@@ -102,8 +104,8 @@
     <table>
       <tr><td colspan="2" class="header-cell">برگه بیوگرافی</td></tr>
       <tr>
-        <td width="50%"><div class="flex-row">نام و نام خانوادگی معرف: <input type="text" id="moaref_name"></div></td>
-        <td width="50%"><div class="flex-row">نام و نام خانوادگی پراسپکت: <input type="text" id="prospect_name"></div></td>
+        <td width="48%"><div class="flex-row">نام و نام خانوادگی معرف: <input type="text" id="moaref_name"></div></td>
+        <td width="52%"><div class="flex-row">نام و نام خانوادگی پراسپکت: <input type="text" id="prospect_name"></div></td>
       </tr>
       <tr>
         <td><div class="flex-row">ساعت دقیق و تاریخ پرزنت: <input type="text" id="present_date"></div></td>
@@ -151,19 +153,19 @@
           </div>
         </td>
       </tr>
-      <tr><td colspan="2"><div class="flex-row">شغل فعلی و سابقه مشاغل قبلی: <input type="text" id="job_history"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">میزان درآمد: <input type="text" id="income"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">شغل فعلی و سابقه مشاغل قبلی: <input type="text" id="job_history"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">میزان درآمد: <input type="text" id="income"></div></td></tr>
       <tr class="merge-top">
-        <td colspan="2"><div class="flex-row">دغدغه فعلی:
+        <td colspan="2" style="white-space: normal;"><div class="flex-row">دغدغه فعلی:
             <label class="checkbox-group">درآمد<input type="checkbox" id="d_daramad"></label>
             <label class="checkbox-group">زمان<input type="checkbox" id="d_zaman"></label>
             <label class="checkbox-group">پیشرفت<input type="checkbox" id="d_pishraft"></label>
             <label class="checkbox-group">امنیت شغلی<input type="checkbox" id="d_amniat"></label>
         </div></td>
       </tr>
-      <tr class="merge-bottom"><td colspan="2"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
+      <tr class="merge-bottom"><td colspan="2" style="white-space: normal;"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
       <tr class="merge-top">
-        <td colspan="2"><div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
+        <td colspan="2" style="white-space: normal;"><div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
             <label class="checkbox-group">اجتماعی<input type="checkbox" id="v_ejtemai"></label>
             <label class="checkbox-group">ریسک‌پذیر<input type="checkbox" id="v_risk"></label>
             <label class="checkbox-group">مستقل<input type="checkbox" id="v_mostaghel"></label>
@@ -174,21 +176,21 @@
         </div></td>
       </tr>
       <tr class="merge-bottom">
-        <td colspan="2"><div class="flex-row">
+        <td colspan="2" style="white-space: normal;"><div class="flex-row">
             <label class="checkbox-group">خواستار تجربه‌های تازه<input type="checkbox" id="exp_new"></label>
             <label class="checkbox-group">اهمیت‌دهنده به حرف اطرافیان<input type="checkbox" id="atrafian"></label>
             توضیحات بیشتر: <input type="text" id="desc2">
         </div></td>
       </tr>
-      <tr><td colspan="2"><div class="flex-row">سرگرمی‌های مورد علاقه: <input type="text" id="hobbies"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">میزان آشنایی با علم روز و بازاریابی شبکه‌ای: <input type="text" id="mlm_knowledge"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">تاریخ آخرین دیدار و علت دیدار: <input type="text" id="last_visit"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">آخرین خاطره مشترک: <input type="text" id="memory"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">نیازهای امروزه و بزرگترین اهداف: <input type="text" id="goals"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">چالش‌های زندگی: <input type="text" id="challenges"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">اطلاعات داده شده در زنگ دعوت (دید کاری): <input type="text" id="invite_info"></div></td></tr>
-      <tr><td colspan="2"><div class="flex-row">آدرس اینستاگرام: <input type="text" id="instagram"></div></td></tr>
-      <tr><td colspan="2" style="height:100px; vertical-align:top;">توضیحات باقیمانده: <textarea id="final_desc" rows="4"></textarea></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">سرگرمی‌های مورد علاقه: <input type="text" id="hobbies"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">میزان آشنایی با علم روز و بازاریابی شبکه‌ای: <input type="text" id="mlm_knowledge"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">تاریخ آخرین دیدار و علت دیدار: <input type="text" id="last_visit"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">آخرین خاطره مشترک: <input type="text" id="memory"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">نیازهای امروزه و بزرگترین اهداف: <input type="text" id="goals"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">چالش‌های زندگی: <input type="text" id="challenges"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">اطلاوات داده شده در زنگ دعوت (دید کاری): <input type="text" id="invite_info"></div></td></tr>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">آدرس اینستاگرام: <input type="text" id="instagram"></div></td></tr>
+      <tr><td colspan="2" style="height:100px; vertical-align:top; white-space: normal;">توضیحات باقیمانده: <textarea id="final_desc" rows="4"></textarea></td></tr>
 
       <tr class="footer-row">
         <td colspan="2">
