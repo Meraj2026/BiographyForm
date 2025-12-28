@@ -6,6 +6,33 @@
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
+    /* استایل پاپ‌آپ راهنما */
+    #guide-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      width: 500px;
+      max-width: 90%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: right;
+      line-height: 1.8;
+    }
+    .modal-content h3 { color: #2980b9; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    .modal-content ul { padding-right: 20px; }
+    .modal-content li { margin-bottom: 10px; font-size: 15px; }
+    .btn-close-modal {
+      background: #2980b9; color: #fff; border: none; padding: 10px 25px;
+      border-radius: 5px; cursor: pointer; font-family: Tahoma; font-weight: bold;
+      width: 100%; margin-top: 15px;
+    }
+
     body {
       font-family: Tahoma, Arial, sans-serif;
       background: #f0f0f0;
@@ -33,29 +60,18 @@
       font-size: 14px; 
       line-height: 1.8; 
       text-align: right; 
-      /* جلوگیری از شکستن متن عناوین در تمام سلول‌ها */
       white-space: nowrap; 
     }
     
     .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; white-space: normal; }
 
     input[type="text"], textarea {
-      border: none; 
-      outline: none; 
-      background: transparent;
-      color: red; 
-      font-size: 15px; 
-      font-weight: bold; 
-      font-family: Tahoma, sans-serif;
-      text-align: right; 
-      direction: rtl;
-      width: auto; 
-      flex-grow: 1;
-      line-height: 1.8;
-      padding-bottom: 2px;
+      border: none; outline: none; background: transparent;
+      color: red; font-size: 15px; font-weight: bold; font-family: Tahoma, sans-serif;
+      text-align: right; direction: rtl; width: auto; flex-grow: 1;
+      line-height: 1.8; padding-bottom: 2px;
     }
     
-    /* استثنا برای متن‌های طولانی داخل TextArea و ردیف‌های ادغامی */
     textarea { width: 100%; resize: none; overflow: hidden; display: block; white-space: normal; }
     tr[colspan] td, .footer-row td { white-space: normal; }
 
@@ -78,6 +94,7 @@
       margin-top: 20px; display: flex; gap: 10px; background: #fff;
       padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,.2);
       width: 800px; justify-content: center; box-sizing: border-box;
+      margin-bottom: 40px;
     }
 
     button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-family: Tahoma; font-weight: bold; }
@@ -99,6 +116,19 @@
   </style>
 </head>
 <body>
+
+  <div id="guide-modal">
+    <div class="modal-content">
+      <h3>راهنمای استفاده از فرم</h3>
+      <ul>
+        <li><strong>مرورگر:</strong> جهت عملکرد صحیح دکمه‌ها، حتماً از مرورگر <strong>Chrome</strong> (گوگل کروم) استفاده کنید. از باز کردن فرم داخل تلگرام خودداری کنید.</li>
+        <li><strong>پشتیبان‌گیری:</strong> اطلاعات وارد شده را در قالب یک فایل ذخیره می‌کند تا بعداً بتوانید آن را ویرایش کنید.</li>
+        <li><strong>بازیابی:</strong> فایل پشتیبانی که قبلاً ذخیره کرده‌اید را فراخوانی می‌کند.</li>
+        <li><strong>دانلود تصویر:</strong> فرم تکمیل شده را به صورت عکس با کیفیت بالا در گالری شما ذخیره می‌کند.</li>
+      </ul>
+      <button class="btn-close-modal" onclick="closeModal()">متوجه شدم</button>
+    </div>
+  </div>
 
   <div id="capture-area">
     <table>
@@ -208,6 +238,11 @@
   </div>
 
   <script>
+    // بستن پاپ‌آپ
+    function closeModal() {
+      document.getElementById('guide-modal').style.display = 'none';
+    }
+
     function downloadJPG(){
       const el = document.getElementById('capture-area');
       const instaField = document.getElementById('instagram');
