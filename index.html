@@ -24,18 +24,16 @@
       text-align: right;
       line-height: 1.8;
     }
-    .modal-content h3 { color: #2980b9; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-    .modal-content ul { padding-right: 20px; }
-    .modal-content li { margin-bottom: 10px; font-size: 15px; }
+    .modal-content h3 { color: #2c3e50; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; }
     .btn-close-modal {
-      background: #2980b9; color: #fff; border: none; padding: 10px 25px;
-      border-radius: 5px; cursor: pointer; font-family: Tahoma; font-weight: bold;
-      width: 100%; margin-top: 15px;
+      background: #34495e; color: #fff; border: none; padding: 12px 25px;
+      border-radius: 8px; cursor: pointer; font-family: Tahoma; font-weight: bold;
+      width: 100%; margin-top: 15px; transition: 0.3s;
     }
 
     body {
       font-family: Tahoma, Arial, sans-serif;
-      background: #f0f0f0;
+      background: #eceff1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -48,7 +46,7 @@
       width: 800px;
       padding: 20px;
       border: 2px solid #000;
-      box-shadow: 0 0 10px rgba(0,0,0,.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       box-sizing: border-box;
     }
 
@@ -75,46 +73,49 @@
     textarea { width: 100%; resize: none; overflow: hidden; display: block; white-space: normal; }
     tr[colspan] td, .footer-row td { white-space: normal; }
 
-    .answer-select {
-      border: none; outline: none; background: transparent;
-      color: red; font-size: 15px; font-weight: bold; font-family: Tahoma, sans-serif;
-      text-align: right; direction: rtl; width: auto; flex-grow: 1;
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg fill="%23ff0000" height="14" viewBox="0 0 24 24" width="14" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
-      background-repeat: no-repeat; background-position: left center;
-      padding-left: 20px; line-height: 1.8; cursor: pointer;
-    }
-    
-    .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
-    .checkbox-group { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; cursor: pointer; }
-    .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
-    input[type="checkbox"] { cursor: pointer; transform: scale(1.1); margin: 0; }
-
+    /* دکمه‌ها و کنترلرها */
     .controls {
-      margin-top: 20px; display: flex; gap: 10px; background: #fff;
-      padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,.2);
-      width: 800px; justify-content: center; box-sizing: border-box;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between; /* ایجاد فاصله بین دو گروه دکمه */
+      width: 800px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      box-sizing: border-box;
+      margin-bottom: 50px;
     }
 
-    button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-family: Tahoma; font-weight: bold; }
-    .btn-download { background: #27ae60; color: #fff; }
-    .btn-backup { background: #2980b9; color: #fff; }
-    .btn-restore { background: #f39c12; color: #fff; }
-    .btn-share { background: #0088cc; color: #fff; } /* رنگ تلگرامی */
+    .btn-group { display: flex; gap: 12px; }
+
+    button { 
+      padding: 12px 20px; 
+      cursor: pointer; 
+      border: none; 
+      border-radius: 8px; 
+      font-family: Tahoma; 
+      font-weight: bold; 
+      font-size: 13px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    button:active { transform: scale(0.96); }
+
+    /* رنگ‌بندی جدید و کاربرپسند */
+    .btn-backup { background: #78909c; color: #fff; } /* آبی خاکستری ملایم */
+    .btn-restore { background: #90a4ae; color: #fff; } /* نسخه روشن‌تر برای بازیابی */
+    
+    .btn-share { background: #42a5f5; color: #fff; } /* آبی روشن تلگرامی */
+    .btn-download { background: #66bb6a; color: #fff; } /* سبز ملایم */
 
     #fileInput { display: none; }
-    tr.merge-top td { border-bottom: none !important; }
-    tr.merge-bottom td { border-top: none !important; }
-
     .footer-row td { font-weight: bold; font-size: 19px; padding: 16px; white-space: normal; }
     
-    #instagram { 
-      direction: ltr !important; 
-      text-align: left !important; 
-      unicode-bidi: plaintext !important;
-    }
+    #instagram { direction: ltr !important; text-align: left !important; unicode-bidi: plaintext !important; }
   </style>
 </head>
 <body>
@@ -123,10 +124,9 @@
     <div class="modal-content">
       <h3>راهنمای استفاده از فرم</h3>
       <ul>
-        <li><strong>مرورگر:</strong> جهت عملکرد صحیح دکمه‌ها (به‌ویژه دانلود و اشتراک‌گذاری)، حتماً از <strong>Chrome</strong> استفاده کنید.</li>
-        <li><strong>پشتیبان‌گیری:</strong> ذخیره اطلاعات برای ویرایش در آینده.</li>
-        <li><strong>اشتراک‌گذاری:</strong> ارسال مستقیم عکس فرم به تلگرام یا سایر پیام‌رسان‌ها.</li>
-        <li><strong>دانلود تصویر:</strong> ذخیره فرم به صورت عکس در گالری.</li>
+        <li><strong>مرورگر:</strong> جهت عملکرد صحیح (به‌ویژه دکمه اشتراک‌گذاری)، حتماً از <strong>Chrome</strong> استفاده کنید.</li>
+        <li><strong>پشتیبان و بازیابی:</strong> برای ذخیره موقت اطلاعات و بازگرداندن آن‌ها جهت ویرایش مجدد استفاده می‌شود.</li>
+        <li><strong>ارسال و دانلود:</strong> خروجی نهایی فرم را به صورت عکس برای شما آماده می‌کنند.</li>
       </ul>
       <button class="btn-close-modal" onclick="closeModal()">متوجه شدم</button>
     </div>
@@ -150,7 +150,7 @@
       <tr>
         <td>
           <div class="flex-row">تحصیلات:
-            <select id="education" class="answer-select" required>
+            <select id="education" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
               <option value="زیر دیپلم">زیر دیپلم</option>
               <option value="دیپلم">دیپلم</option>
@@ -166,7 +166,7 @@
       <tr>
         <td>
           <div class="flex-row">وضعیت تأهل: 
-            <select id="marriage" class="answer-select" required>
+            <select id="marriage" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
               <option value="مجرد">مجرد</option><option value="متأهل">متأهل</option>
               <option value="طلاق گرفته">طلاق گرفته</option><option value="همسر فوت کرده">همسر فوت کرده</option>
@@ -176,7 +176,7 @@
         </td>
         <td>
           <div class="flex-row">تعداد فرزند:
-            <select id="children" class="answer-select" required>
+            <select id="children" class="answer-select">
               <option value="" disabled selected>انتخاب کنید</option>
               <option value="صفر">صفر</option><option value="۱">۱</option><option value="۲">۲</option>
               <option value="۳">۳</option><option value="۴">۴</option>
@@ -220,127 +220,4 @@
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">آخرین خاطره مشترک: <input type="text" id="memory"></div></td></tr>
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">نیازهای امروزه و بزرگترین اهداف: <input type="text" id="goals"></div></td></tr>
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">چالش‌های زندگی: <input type="text" id="challenges"></div></td></tr>
-      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">اطلاعات داده شده در زنگ دعوت (دید کاری): <input type="text" id="invite_info"></div></td></tr>
-      <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">آدرس اینستاگرام: <input type="text" id="instagram"></div></td></tr>
-      <tr><td colspan="2" style="height:100px; vertical-align:top; white-space: normal;">توضیحات باقیمانده: <textarea id="final_desc" rows="4"></textarea></td></tr>
-
-      <tr class="footer-row">
-        <td colspan="2">
-          اینجانب ( <input type="text" id="footer_me" style="width:120px; text-align:center;"> ) درخواست تأییدیه جهت زنگ دعوت به ایشان و مشخص کردن پرزنتور از آقا / خانم ( <input type="text" id="footer_target" style="width:120px; text-align:center;"> ) (اولین فالوئر) را دارم.
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="controls">
-    <button class="btn-backup" onclick="saveBackup()">‌پشتیبان‌گیری</button>
-    <button class="btn-restore" onclick="document.getElementById('fileInput').click()">بازیابی</button>
-    <button class="btn-share" onclick="shareImage()">ارسال به تلگرام / ایتا</button>
-    <button class="btn-download" onclick="downloadJPG()">دانلود تصویر</button>
-    <input type="file" id="fileInput" accept=".json" onchange="restoreBackup(event)">
-  </div>
-
-  <script>
-    function closeModal() {
-      document.getElementById('guide-modal').style.display = 'none';
-    }
-
-    // تابع مشترک برای آماده‌سازی المان جهت عکس‌برداری
-    async function prepareForCapture() {
-      const el = document.getElementById('capture-area');
-      const instaField = document.getElementById('instagram');
-      const finalDesc = document.getElementById('final_desc');
-      const originalInsta = instaField.value;
-      const originalDesc = finalDesc.value;
-
-      if(originalInsta && !originalInsta.startsWith('\u200E')){
-          instaField.value = '\u200E' + originalInsta;
-      }
-
-      const descReplacement = document.createElement('div');
-      descReplacement.innerText = originalDesc;
-      descReplacement.style.cssText = "white-space:pre-wrap; color:red; font-size:15px; font-weight:bold; font-family:Tahoma; text-align:right; line-height:1.8; padding-top:2px;";
-      
-      finalDesc.style.display = 'none';
-      finalDesc.parentNode.appendChild(descReplacement);
-
-      const canvas = await html2canvas(el, { scale: 3, backgroundColor: '#ffffff', useCORS: true });
-      
-      // بازگرداندن وضعیت فرم به حالت اول
-      instaField.value = originalInsta;
-      finalDesc.style.display = 'block';
-      descReplacement.remove();
-      
-      return canvas;
-    }
-
-    // دکمه دانلود معمولی
-    async function downloadJPG(){
-      const prospectName = document.getElementById('prospect_name').value.trim();
-      const canvas = await prepareForCapture();
-      const a = document.createElement('a');
-      a.download = prospectName ? `بیوگرافی ${prospectName}.jpg` : 'biography-sheet.jpg';
-      a.href = canvas.toDataURL('image/jpeg', 0.98);
-      a.click();
-    }
-
-    // دکمه اشتراک‌گذاری سیستمی (تلگرام و ...)
-    async function shareImage() {
-      try {
-        const prospectName = document.getElementById('prospect_name').value.trim();
-        const canvas = await prepareForCapture();
-        
-        canvas.toBlob(async (blob) => {
-          const file = new File([blob], 'biography.jpg', { type: 'image/jpeg' });
-          
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              files: [file],
-              title: 'برگه بیوگرافی',
-              text: `بیوگرافی ${prospectName}`
-            });
-          } else {
-            alert("مرورگر شما از قابلیت اشتراک‌گذاری مستقیم فایل پشتیبانی نمی‌کند. لطفاً ابتدا تصویر را دانلود و سپس در تلگرام ارسال کنید.");
-          }
-        }, 'image/jpeg', 0.95);
-      } catch (err) {
-        console.error('خطا در اشتراک‌گذاری:', err);
-      }
-    }
-
-    function saveBackup(){
-      const data={};
-      document.querySelectorAll('input, textarea, select').forEach(el=>{
-        data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
-      });
-      const prospectName = document.getElementById('prospect_name').value.trim();
-      const backupFileName = prospectName ? `بیوگرافی ${prospectName}.json` : 'backup-biography.json';
-      const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      a.href=url; a.download = backupFileName; a.click();
-    }
-
-    function restoreBackup(e){
-      const file=e.target.files[0]; if(!file) return;
-      const reader=new FileReader();
-      reader.onload=(ev)=>{
-        const data=JSON.parse(ev.target.result);
-        for(const id in data){
-          const el=document.getElementById(id);
-          if(el) {
-            if(el.type==='checkbox') el.checked=!!data[id];
-            else el.value=data[id];
-          }
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    document.querySelectorAll('textarea').forEach(t=>{
-      const fit=()=>{ t.style.height='auto'; t.style.height=t.scrollHeight+'px'; };
-      t.addEventListener('input',fit); fit();
-    });
-  </script>
-</body>
-</html>
+      <tr><td colspan="2" style="white-space: normal;"><div class="flex
