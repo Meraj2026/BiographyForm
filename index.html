@@ -6,7 +6,7 @@
   <title>برگه بیوگرافی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* --- استایل جدید و جذاب کادر راهنما --- */
+    /* --- استایل کادر راهنما --- */
     #guide-modal {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -80,6 +80,7 @@
       font-size: 14px; line-height: 1.8; text-align: right; white-space: nowrap; 
     }
     .header-cell { text-align: center; font-weight: bold; font-size: 20px; padding: 15px; white-space: normal; }
+    
     input[type="text"], textarea {
       border: none; outline: none; background: transparent;
       color: red; font-size: 15px; font-weight: bold; font-family: Tahoma, sans-serif;
@@ -87,6 +88,7 @@
       line-height: 1.8; padding-bottom: 2px;
     }
     textarea { width: 100%; resize: none; overflow: hidden; display: block; white-space: normal; }
+    
     .answer-select {
       border: none; outline: none; background: transparent;
       color: red; font-size: 15px; font-weight: bold; font-family: Tahoma, sans-serif;
@@ -96,9 +98,14 @@
       background-repeat: no-repeat; background-position: left center;
       padding-left: 20px; line-height: 1.8; cursor: pointer;
     }
+    
     .flex-row { display: flex; align-items: center; gap: 5px; justify-content: flex-start; direction: rtl; }
     .checkbox-group { display: inline-flex; align-items: center; gap: 4px; margin-left: 10px; cursor: pointer; }
     .checkbox-group:has(input:checked) { color: red; font-weight: bold; }
+
+    /* حذف خطوط جداکننده طبق درخواست شما */
+    .no-border-bottom { border-bottom: none !important; }
+    .no-border-top { border-top: none !important; }
 
     /* نوار دکمه‌ها */
     .controls-container {
@@ -128,7 +135,6 @@
   <div id="guide-modal">
     <div class="modal-content">
       <h3>👋 خوش آمدید! راهنمای کوتاه:</h3>
-      
       <div class="guide-item">
         <div class="guide-icon">✍️</div>
         <div class="guide-text">
@@ -136,7 +142,6 @@
           <p>خیلی ساده است! با کلیک کردن جلوی سوالات، می‌توانید پاسخ خود را تایپ کنید.</p>
         </div>
       </div>
-
       <div class="guide-item">
         <div class="guide-icon">🌐</div>
         <div class="guide-text">
@@ -144,23 +149,20 @@
           <p>برای اینکه دکمه‌ها و ذخیره عکس درست کار کنند، حتماً لینک را در مرورگر Chrome باز کنید.</p>
         </div>
       </div>
-
       <div class="guide-item">
         <div class="guide-icon">📂</div>
         <div class="guide-text">
-          <b>ذخیره و بازیابی (دکمه‌های سمت راست)</b>
+          <b>ذخیره و بازیابی (دکمه‌های سربی)</b>
           <p>اگر فرم را نیمه‌کاره پر کردید، «پشتیبان‌گیری» بزنید. بعداً با «بازیابی» می‌توانید ادامه دهید.</p>
         </div>
       </div>
-
       <div class="guide-item">
         <div class="guide-icon">🖼️</div>
         <div class="guide-text">
-          <b>دریافت عکس نهایی (دکمه‌های سمت چپ)</b>
+          <b>دریافت عکس نهایی (دکمه‌های رنگی)</b>
           <p>بعد از تکمیل، می‌توانید عکس فرم را مستقیم به «تلگرام» بفرستید یا آن را «دانلود» کنید.</p>
         </div>
       </div>
-
       <button class="btn-close-modal" onclick="closeModal()">متوجه شدم، بریم سراغ فرم!</button>
     </div>
   </div>
@@ -220,17 +222,17 @@
       </tr>
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">شغل فعلی و سابقه مشاغل قبلی: <input type="text" id="job_history"></div></td></tr>
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">میزان درآمد: <input type="text" id="income"></div></td></tr>
-      <tr class="merge-top">
-        <td colspan="2" style="white-space: normal;"><div class="flex-row">دغدغه فعلی:
+      
+      <tr><td colspan="2" class="no-border-bottom" style="white-space: normal;"><div class="flex-row">دغدغه فعلی:
             <label class="checkbox-group">درآمد<input type="checkbox" id="d_daramad"></label>
             <label class="checkbox-group">زمان<input type="checkbox" id="d_zaman"></label>
             <label class="checkbox-group">پیشرفت<input type="checkbox" id="d_pishraft"></label>
             <label class="checkbox-group">امنیت شغلی<input type="checkbox" id="d_amniat"></label>
         </div></td>
       </tr>
-      <tr class="merge-bottom"><td colspan="2" style="white-space: normal;"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
-      <tr class="merge-top">
-        <td colspan="2" style="white-space: normal;"><div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
+      <tr><td colspan="2" class="no-border-top" style="white-space: normal;"><div class="flex-row">توضیحات بیشتر: <input type="text" id="desc1"></div></td></tr>
+      
+      <tr><td colspan="2" class="no-border-bottom" style="white-space: normal;"><div class="flex-row" style="flex-wrap:wrap;">ویژگی‌های شخصیتی:
             <label class="checkbox-group">اجتماعی<input type="checkbox" id="v_ejtemai"></label>
             <label class="checkbox-group">ریسک‌پذیر<input type="checkbox" id="v_risk"></label>
             <label class="checkbox-group">مستقل<input type="checkbox" id="v_mostaghel"></label>
@@ -240,13 +242,13 @@
             <label class="checkbox-group">رفیق‌باز<input type="checkbox" id="v_rafigh"></label>
         </div></td>
       </tr>
-      <tr class="merge-bottom">
-        <td colspan="2" style="white-space: normal;"><div class="flex-row">
+      <tr><td colspan="2" class="no-border-top" style="white-space: normal;"><div class="flex-row">
             <label class="checkbox-group">خواستار تجربه‌های تازه<input type="checkbox" id="exp_new"></label>
             <label class="checkbox-group">اهمیت‌دهنده به حرف اطرافیان<input type="checkbox" id="atrafian"></label>
             توضیحات بیشتر: <input type="text" id="desc2">
         </div></td>
       </tr>
+
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">سرگرمی‌های مورد علاقه: <input type="text" id="hobbies"></div></td></tr>
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">میزان آشنایی با علم روز و بازاریابی شبکه‌ای: <input type="text" id="mlm_knowledge"></div></td></tr>
       <tr><td colspan="2" style="white-space: normal;"><div class="flex-row">تاریخ آخرین دیدار و علت دیدار: <input type="text" id="last_visit"></div></td></tr>
@@ -286,20 +288,13 @@
       const finalDesc = document.getElementById('final_desc');
       const originalInsta = instaField.value;
       const originalDesc = finalDesc.value;
-
-      if(originalInsta && !originalInsta.startsWith('\u200E')){
-          instaField.value = '\u200E' + originalInsta;
-      }
-
+      if(originalInsta && !originalInsta.startsWith('\u200E')){ instaField.value = '\u200E' + originalInsta; }
       const descReplacement = document.createElement('div');
       descReplacement.innerText = originalDesc;
       descReplacement.style.cssText = "white-space:pre-wrap; color:red; font-size:15px; font-weight:bold; font-family:Tahoma; text-align:right; line-height:1.8; padding-top:2px;";
-      
       finalDesc.style.display = 'none';
       finalDesc.parentNode.appendChild(descReplacement);
-
       const canvas = await html2canvas(el, { scale: 3, backgroundColor: '#ffffff', useCORS: true });
-      
       instaField.value = originalInsta;
       finalDesc.style.display = 'block';
       descReplacement.remove();
